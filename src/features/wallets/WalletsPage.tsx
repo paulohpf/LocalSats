@@ -52,7 +52,7 @@ export function WalletsPage() {
 
   async function remove(wallet: Wallet) {
     if (!wallet.id || !window.confirm(t('walletDeleteConfirm'))) return
-    await deleteWallet(wallet.id)
+    try { await deleteWallet(wallet.id) } catch { window.alert(t('walletHasPurchases')) }
   }
 
   return <main className="content">

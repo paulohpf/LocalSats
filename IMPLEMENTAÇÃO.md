@@ -49,30 +49,30 @@ backup ainda são placeholders.
 
 ### Fase 3 — Compras
 
-- [ ] Criar compra
-- [ ] Listar compras
-- [ ] Editar compra
-- [ ] Excluir compra
-- [ ] Associar carteira
-- [ ] Calcular BTC
-- [ ] Registrar taxa
-- [ ] Adicionar observação
+- [x] Criar compra
+- [x] Listar compras
+- [x] Editar compra
+- [x] Excluir compra
+- [x] Associar carteira
+- [x] Calcular BTC
+- [x] Registrar taxa
+- [x] Adicionar observação
 
 ### Fase 4 — Dashboard
 
-- [ ] Total investido
-- [ ] Total de BTC
-- [ ] Total em satoshis
-- [ ] Preço médio
-- [ ] Valor atual
-- [ ] Resultado
-- [ ] Gráfico de investimento
-- [ ] Gráfico de acumulação
+- [x] Total investido
+- [x] Total de BTC
+- [x] Total em satoshis
+- [x] Preço médio
+- [x] Valor atual
+- [x] Resultado
+- [x] Gráfico de investimento
+- [x] Gráfico de acumulação
 
 ### Fase 5 — Preço atual
 
 - [ ] Abstração de provedor de preço
-- [ ] Consulta de preço online
+- [ ] Integrar CoinGecko Free Tier para consulta de preço do Bitcoin
 - [ ] Armazenamento local do último preço
 - [ ] Atualização manual de preço
 
@@ -164,6 +164,40 @@ backup ainda são placeholders.
 - **Testes:** `npm run build` e `npm run lint` concluídos com sucesso.
 - **Pendências:** definir o comportamento de compras associadas ao excluir uma
   carteira antes da implementação da Fase 3.
+
+### 25/09/2026 — Fase 3: CRUD de compras
+
+- **Implementação:** funções de cálculo, serviço de compras, criação, edição,
+  listagem, exclusão, associação opcional a carteiras, taxas, observações e
+  cálculo automático de BTC. A exclusão de carteiras com compras associadas foi
+  bloqueada.
+- **Arquivos:** `src/utils/calculations.ts`,
+  `src/features/purchases/`, `src/features/wallets/`, `src/App.tsx`,
+  `src/App.css` e `src/i18n/index.ts`.
+- **Testes:** `npm run build` e `npm run lint` concluídos com sucesso.
+- **Pendências:** implementar testes unitários dos cálculos e continuar com a
+  Fase 4 — Dashboard.
+
+### Requisito registrado — Preço do Bitcoin
+
+- Integrar o **CoinGecko Free Tier** nas próximas etapas para capturar o preço
+  atual do Bitcoin.
+- A integração deverá utilizar a abstração `BitcoinPriceProvider` prevista na
+  documentação.
+- O preço, moeda, horário da consulta e provedor deverão ser armazenados
+  localmente, sem enviar dados de compras, carteiras ou saldos.
+
+### 25/09/2026 — Fase 4: Dashboard
+
+- **Implementação:** cálculos financeiros centralizados, cards de indicadores,
+  filtro por moeda, estados de dados vazios e preço indisponível, histórico de
+  investimento e histórico de acumulação de BTC em gráficos SVG.
+- **Arquivos:** `src/utils/calculations.ts`,
+  `src/features/dashboard/DashboardPage.tsx`, `src/App.tsx`, `src/App.css` e
+  `src/i18n/index.ts`.
+- **Testes:** `npm run build` e `npm run lint` concluídos com sucesso.
+- **Pendências:** conectar o CoinGecko Free Tier na Fase 5 para habilitar valor
+  atual, resultado e percentual de resultado.
 
 ## Modelo para novas implementações
 

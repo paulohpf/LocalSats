@@ -19,5 +19,7 @@ export async function updateWallet(id: number, input: WalletInput) {
 }
 
 export async function deleteWallet(id: number) {
+  const linkedPurchases = await db.purchases.where('walletId').equals(id).count()
+  if (linkedPurchases > 0) throw new Error('WALLET_HAS_PURCHASES')
   await db.wallets.delete(id)
 }
