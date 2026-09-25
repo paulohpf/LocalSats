@@ -4,6 +4,14 @@ export function purchasesInCurrency(purchases: Purchase[], currency: Purchase['c
   return purchases.filter((purchase) => purchase.currency === currency)
 }
 
+function isSale(purchase: Purchase) {
+  return purchase.type === 'sell'
+}
+
+export function purchasesOfType(purchases: Purchase[], type: Purchase['type']) {
+  return purchases.filter((purchase) => (purchase.type ?? 'buy') === type)
+}
+
 export function calculateBtc(amount: number, bitcoinPrice: number) {
   if (amount <= 0 || bitcoinPrice <= 0) return 0
   return amount / bitcoinPrice
@@ -11,12 +19,17 @@ export function calculateBtc(amount: number, bitcoinPrice: number) {
 
 export function totalInvested(purchases: Purchase[], currency?: Purchase['currency']) {
   const source = currency ? purchasesInCurrency(purchases, currency) : purchases
-  return source.reduce((total, purchase) => total + purchase.amount, 0)
+  return source.reduce((total, purchase) => total + (isSale(purchase) ? -purchase.amount : purchase.amount), 0)
 }
 
 export function totalBTC(purchases: Purchase[], currency?: Purchase['currency']) {
   const source = currency ? purchasesInCurrency(purchases, currency) : purchases
-  return source.reduce((total, purchase) => total + purchase.btcAmount, 0)
+  return source.reduce((total, purchase) => total + (isSale(purchase) ? -purchase.btcAmount : purchase.btcAmount), 0)
+}
+
+export function totalSold(purchases: Purchase[], currency?: Purchase['currency']) {
+  const source = currency ? purchasesInCurrency(purchases, currency) : purchases
+  return source.reduce((total, purchase) => total + (isSale(purchase) ? purchase.amount : 0), 0)
 }
 
 export function totalSats(purchases: Purchase[], currency?: Purchase['currency']) {
@@ -24,8 +37,10 @@ export function totalSats(purchases: Purchase[], currency?: Purchase['currency']
 }
 
 export function averagePrice(purchases: Purchase[], currency?: Purchase['currency']) {
-  const btc = totalBTC(purchases, currency)
-  return btc === 0 ? 0 : totalInvested(purchases, currency) / btc
+  const buys = purchasesOfType(currency ? purchasesInCurrency(purchases, currency) : purchases, 'buy')
+  const btc = buys.reduce((total, purchase) => total + purchase.btcAmount, 0)
+  const invested = buys.reduce((total, purchase) => total + purchase.amount, 0)
+  return btc === 0 ? 0 : invested / btc
 }
 
 export function currentValue(purchases: Purchase[], currentPrice: number, currency?: Purchase['currency']) {
@@ -50,7 +65,7 @@ export function investmentHistory(purchases: Purchase[], currency?: Purchase['cu
   let accumulated = 0
   const source = currency ? purchasesInCurrency(purchases, currency) : purchases
   return [...source].sort((a, b) => a.date.localeCompare(b.date)).map((purchase) => {
-    accumulated += purchase.amount
+    accumulated += isSale(purchase) ? -purchase.amount : purchase.amount
     return { label: purchase.date, value: accumulated }
   })
 }
@@ -59,7 +74,7 @@ export function accumulationHistory(purchases: Purchase[], currency?: Purchase['
   let accumulated = 0
   const source = currency ? purchasesInCurrency(purchases, currency) : purchases
   return [...source].sort((a, b) => a.date.localeCompare(b.date)).map((purchase) => {
-    accumulated += purchase.btcAmount
+    accumulated += isSale(purchase) ? -purchase.btcAmount : purchase.btcAmount
     return { label: purchase.date, value: accumulated }
   })
 }

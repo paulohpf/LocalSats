@@ -8,6 +8,7 @@ export interface Wallet {
 
 export interface Purchase {
   id?: number
+  type: 'buy' | 'sell'
   date: string
   amount: number
   currency: 'BRL' | 'USD'
@@ -23,4 +24,5 @@ export interface Settings {
   language: 'pt-BR' | 'en'
   currency: 'BRL' | 'USD'
   theme: 'light' | 'dark'
+  btcDisplayUnit: 'BTC' | 'sats'
 }

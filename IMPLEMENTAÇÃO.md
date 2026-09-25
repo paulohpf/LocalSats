@@ -57,6 +57,9 @@ backup ainda são placeholders.
 - [x] Calcular BTC
 - [x] Registrar taxa
 - [x] Adicionar observação
+- [x] Registrar venda
+- [x] Calcular saldo líquido após vendas
+- [x] Atualizar gráficos com vendas
 
 ### Fase 4 — Dashboard
 
@@ -71,10 +74,10 @@ backup ainda são placeholders.
 
 ### Fase 5 — Preço atual
 
-- [ ] Abstração de provedor de preço
-- [ ] Integrar CoinGecko Free Tier para consulta de preço do Bitcoin
-- [ ] Armazenamento local do último preço
-- [ ] Atualização manual de preço
+- [x] Abstração de provedor de preço
+- [x] Integrar CoinGecko Free Tier para consulta de preço do Bitcoin
+- [x] Armazenamento local do último preço
+- [x] Atualização manual de preço
 
 ### Fase 6 — Backup
 
@@ -198,6 +201,46 @@ backup ainda são placeholders.
 - **Testes:** `npm run build` e `npm run lint` concluídos com sucesso.
 - **Pendências:** conectar o CoinGecko Free Tier na Fase 5 para habilitar valor
   atual, resultado e percentual de resultado.
+
+### 25/09/2026 — Fase 5: Preço atual do Bitcoin
+
+- **Implementação:** abstração de provedor, integração com CoinGecko Free Tier,
+  timeout, validação da resposta, cache local por moeda, fallback para o último
+  preço disponível, atualização manual e integração do valor atual e resultado
+  no dashboard.
+- **Arquivos:** `src/services/bitcoinPrice/`, `src/database/db.ts`,
+  `src/features/dashboard/DashboardPage.tsx`, `src/App.css`,
+  `src/i18n/index.ts` e `.env.example`.
+- **Testes:** `npm run build` e `npm run lint` concluídos com sucesso.
+- **Pendências:** configurar `VITE_COINGECKO_API_KEY` quando uma chave do Demo
+  API estiver disponível e adicionar testes do provedor e dos cálculos.
+
+### 25/09/2026 — Otimização de preço e unidade do saldo
+
+- **Implementação:** cache de cinco minutos, intervalo mínimo entre consultas,
+  deduplicação de requisições simultâneas e preenchimento automático do preço no
+  modal de compras. Os controles dos campos numéricos foram ocultados e BTC e
+  satoshis foram unificados em um card com unidade persistida pelo usuário.
+- **Arquivos:** `src/services/bitcoinPrice/bitcoinPrice.service.ts`,
+  `src/features/dashboard/DashboardPage.tsx`,
+  `src/features/purchases/PurchasesPage.tsx`, `src/database/settings.ts`,
+  `src/types/index.ts`, `src/App.css` e `src/i18n/index.ts`.
+- **Testes:** `npm run build` e `npm run lint` concluídos com sucesso.
+- **Pendências:** adicionar testes automatizados para cache, preço no modal e
+  preferência de unidade.
+
+### 25/09/2026 — Compras e vendas
+
+- **Implementação:** movimentações de compra e venda na mesma estrutura, cálculo
+  do valor recebido em vendas, saldo líquido de BTC, investimento líquido,
+  total vendido e atualização dos gráficos e do dashboard.
+- **Arquivos:** `src/types/index.ts`, `src/database/db.ts`,
+  `src/features/purchases/`, `src/utils/calculations.ts`,
+  `src/features/dashboard/DashboardPage.tsx`, `src/App.css` e
+  `src/i18n/index.ts`.
+- **Testes:** `npm run build` e `npm run lint` concluídos com sucesso.
+- **Pendências:** adicionar testes automatizados para movimentações e decidir se
+  vendas acima do saldo devem gerar apenas aviso ou bloqueio.
 
 ## Modelo para novas implementações
 

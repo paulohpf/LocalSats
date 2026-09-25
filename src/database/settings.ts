@@ -6,11 +6,12 @@ export const defaultSettings: Settings = {
   language: 'pt-BR',
   currency: 'BRL',
   theme: 'dark',
+  btcDisplayUnit: 'BTC',
 }
 
 export async function getSettings(): Promise<Settings> {
   const saved = await db.settings.get('current')
-  if (saved) return saved
+  if (saved) return { ...defaultSettings, ...saved }
   await db.settings.put(defaultSettings)
   return defaultSettings
 }
