@@ -7,6 +7,7 @@ import { getSettings, updateSettings } from './database/settings'
 import type { Settings } from './types'
 import i18n from './i18n'
 import { EmptyState } from './components/ui/EmptyState'
+import { WalletsPage } from './features/wallets/WalletsPage'
 import './App.css'
 
 function applyTheme(theme: Settings['theme']) {
@@ -60,5 +61,5 @@ export default function App() {
   }
 
   const navigation = [['/', 'dashboard'], ['/purchases', 'purchases'], ['/wallets', 'wallets'], ['/backup', 'backup']]
-  return <div className="app-shell"><aside className="sidebar"><div className="brand"><span className="brand-mark">₿</span><span>Local<span className="accent">Sats</span></span></div><nav>{navigation.map(([path, label]) => <NavLink key={path} to={path} end={path === '/'} className={({ isActive }) => isActive ? 'nav-link active' : 'nav-link'}><span className="nav-dot" />{t(label)}</NavLink>)}</nav><div className="sidebar-footer"><span className="status-dot" /> {t('localFirst')}</div></aside><div className="main-area"><header className="topbar"><span className="mobile-brand">Local<span className="accent">Sats</span></span><div className="topbar-actions"><button aria-label="Alterar idioma" onClick={() => void toggleLanguage()}>EN / PT</button><button aria-label="Alterar tema" onClick={() => void cycleTheme()}>☼ {settings?.theme ?? 'dark'}</button></div></header><Routes><Route path="/" element={<Dashboard />} /><Route path="/purchases" element={<Placeholder title={t('purchases')} />} /><Route path="/wallets" element={<Placeholder title={t('wallets')} />} /><Route path="/backup" element={<Placeholder title={t('backup')} />} /></Routes></div></div>
+  return <div className="app-shell"><aside className="sidebar"><div className="brand"><span className="brand-mark">₿</span><span>Local<span className="accent">Sats</span></span></div><nav>{navigation.map(([path, label]) => <NavLink key={path} to={path} end={path === '/'} className={({ isActive }) => isActive ? 'nav-link active' : 'nav-link'}><span className="nav-dot" />{t(label)}</NavLink>)}</nav><div className="sidebar-footer"><span className="status-dot" /> {t('localFirst')}</div></aside><div className="main-area"><header className="topbar"><span className="mobile-brand">Local<span className="accent">Sats</span></span><div className="topbar-actions"><button aria-label="Alterar idioma" onClick={() => void toggleLanguage()}>EN / PT</button><button aria-label="Alterar tema" onClick={() => void cycleTheme()}>☼ {settings?.theme ?? 'dark'}</button></div></header><Routes><Route path="/" element={<Dashboard />} /><Route path="/purchases" element={<Placeholder title={t('purchases')} />} /><Route path="/wallets" element={<WalletsPage />} /><Route path="/backup" element={<Placeholder title={t('backup')} />} /></Routes></div></div>
 }

@@ -40,12 +40,12 @@ backup ainda são placeholders.
 
 ### Fase 2 — Carteiras
 
-- [ ] Criar carteira
-- [ ] Listar carteiras
-- [ ] Editar carteira
-- [ ] Excluir carteira
-- [ ] Observação da carteira
-- [ ] Endereço opcional
+- [x] Criar carteira
+- [x] Listar carteiras
+- [x] Editar carteira
+- [x] Excluir carteira
+- [x] Observação da carteira
+- [x] Endereço opcional
 
 ### Fase 3 — Compras
 
@@ -152,6 +152,18 @@ backup ainda são placeholders.
   `src/App.tsx` e `IMPLEMENTAÇÃO.md`.
 - **Testes:** pendente de execução.
 - **Pendências:** nenhuma relacionada aos temas.
+
+### 25/09/2026 — Fase 2: CRUD de carteiras
+
+- **Implementação:** serviço de carteiras, listagem responsiva, estado vazio,
+  formulário compartilhado de criação e edição, validação do nome e confirmação
+  de exclusão.
+- **Arquivos:** `src/features/wallets/wallets.service.ts`,
+  `src/features/wallets/WalletsPage.tsx`, `src/App.tsx`, `src/App.css` e
+  `src/i18n/index.ts`.
+- **Testes:** `npm run build` e `npm run lint` concluídos com sucesso.
+- **Pendências:** definir o comportamento de compras associadas ao excluir uma
+  carteira antes da implementação da Fase 3.
 
 ## Modelo para novas implementações
 
