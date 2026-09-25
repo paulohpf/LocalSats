@@ -1,0 +1,13 @@
+{
+  "name": "LocalSats",
+  "short_name": "LocalSats",
+  "description": "Acompanhamento local de compras recorrentes de Bitcoin",
+  "start_url": "/",
+  "display": "standalone",
+  "background_color": "#111113",
+  "theme_color": "#f7931a",
+  "lang": "pt-BR",
+  "icons": [
+    { "src": "/icon.svg", "sizes": "any", "type": "image/svg+xml", "purpose": "any maskable" }
+  ]
+}
