@@ -35,7 +35,7 @@ backup ainda são placeholders.
 - [x] Internacionalização configurada
 - [x] Idioma PT-BR disponível
 - [x] Idioma EN disponível
-- [x] Temas claro, escuro e sistema disponíveis
+- [x] Temas claro e escuro disponíveis
 - [x] PWA configurada
 
 ### Fase 2 — Carteiras
@@ -135,14 +135,23 @@ backup ainda são placeholders.
 
 ### 25/09/2026 — Conclusão da fundação
 
-- **Implementação:** configurações persistentes no Dexie, temas claro/escuro/
-  sistema, manifest, ícone, service worker, cache offline e componentes base
+- **Implementação:** configurações persistentes no Dexie, temas claro e escuro,
+  manifest, ícone, service worker, cache offline e componentes base
   de interface.
 - **Arquivos:** `src/database/settings.ts`, `src/components/ui/`, `public/`,
   `index.html`, `src/App.tsx`, `src/App.css` e `src/main.tsx`.
 - **Testes:** `npm run build` e `npm run lint` concluídos com sucesso.
 - **Pendências:** implementar CRUD de carteiras e compras; os dados de idioma,
   moeda e tema já possuem estrutura persistente local.
+
+### 25/09/2026 — Simplificação dos temas
+
+- **Implementação:** tema escuro definido como padrão inicial e alternância
+  restrita aos temas escuro e claro.
+- **Arquivos:** `src/types/index.ts`, `src/database/settings.ts`,
+  `src/App.tsx` e `IMPLEMENTAÇÃO.md`.
+- **Testes:** pendente de execução.
+- **Pendências:** nenhuma relacionada aos temas.
 
 ## Modelo para novas implementações
 

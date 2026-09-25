@@ -5,7 +5,7 @@ export const defaultSettings: Settings = {
   id: 'current',
   language: 'pt-BR',
   currency: 'BRL',
-  theme: 'system',
+  theme: 'dark',
 }
 
 export async function getSettings(): Promise<Settings> {

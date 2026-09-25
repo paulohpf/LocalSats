@@ -22,5 +22,5 @@ export interface Settings {
   id: 'current'
   language: 'pt-BR' | 'en'
   currency: 'BRL' | 'USD'
-  theme: 'light' | 'dark' | 'system'
+  theme: 'light' | 'dark'
 }

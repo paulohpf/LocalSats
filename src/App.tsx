@@ -10,8 +10,7 @@ import { EmptyState } from './components/ui/EmptyState'
 import './App.css'
 
 function applyTheme(theme: Settings['theme']) {
-  const resolved = theme === 'system' ? (window.matchMedia('(prefers-color-scheme: dark)').matches ? 'dark' : 'light') : theme
-  document.documentElement.dataset.theme = resolved
+  document.documentElement.dataset.theme = theme
 }
 
 function Dashboard() {
@@ -46,14 +45,6 @@ export default function App() {
     return () => { active = false }
   }, [])
 
-  useEffect(() => {
-    if (settings?.theme !== 'system') return
-    const media = window.matchMedia('(prefers-color-scheme: dark)')
-    const listener = () => applyTheme('system')
-    media.addEventListener('change', listener)
-    return () => media.removeEventListener('change', listener)
-  }, [settings?.theme])
-
   async function toggleLanguage() {
     const language = i18n.language === 'pt-BR' ? 'en' : 'pt-BR'
     await i18n.changeLanguage(language)
@@ -62,12 +53,12 @@ export default function App() {
   }
 
   async function cycleTheme() {
-    const next = settings?.theme === 'system' ? 'light' : settings?.theme === 'light' ? 'dark' : 'system'
+    const next = settings?.theme === 'light' ? 'dark' : 'light'
     const saved = await updateSettings({ theme: next })
     setSettings(saved)
     applyTheme(next)
   }
 
   const navigation = [['/', 'dashboard'], ['/purchases', 'purchases'], ['/wallets', 'wallets'], ['/backup', 'backup']]
-  return <div className="app-shell"><aside className="sidebar"><div className="brand"><span className="brand-mark">₿</span><span>Local<span className="accent">Sats</span></span></div><nav>{navigation.map(([path, label]) => <NavLink key={path} to={path} end={path === '/'} className={({ isActive }) => isActive ? 'nav-link active' : 'nav-link'}><span className="nav-dot" />{t(label)}</NavLink>)}</nav><div className="sidebar-footer"><span className="status-dot" /> {t('localFirst')}</div></aside><div className="main-area"><header className="topbar"><span className="mobile-brand">Local<span className="accent">Sats</span></span><div className="topbar-actions"><button aria-label="Alterar idioma" onClick={() => void toggleLanguage()}>EN / PT</button><button aria-label="Alterar tema" onClick={() => void cycleTheme()}>☼ {settings?.theme ?? 'system'}</button></div></header><Routes><Route path="/" element={<Dashboard />} /><Route path="/purchases" element={<Placeholder title={t('purchases')} />} /><Route path="/wallets" element={<Placeholder title={t('wallets')} />} /><Route path="/backup" element={<Placeholder title={t('backup')} />} /></Routes></div></div>
+  return <div className="app-shell"><aside className="sidebar"><div className="brand"><span className="brand-mark">₿</span><span>Local<span className="accent">Sats</span></span></div><nav>{navigation.map(([path, label]) => <NavLink key={path} to={path} end={path === '/'} className={({ isActive }) => isActive ? 'nav-link active' : 'nav-link'}><span className="nav-dot" />{t(label)}</NavLink>)}</nav><div className="sidebar-footer"><span className="status-dot" /> {t('localFirst')}</div></aside><div className="main-area"><header className="topbar"><span className="mobile-brand">Local<span className="accent">Sats</span></span><div className="topbar-actions"><button aria-label="Alterar idioma" onClick={() => void toggleLanguage()}>EN / PT</button><button aria-label="Alterar tema" onClick={() => void cycleTheme()}>☼ {settings?.theme ?? 'dark'}</button></div></header><Routes><Route path="/" element={<Dashboard />} /><Route path="/purchases" element={<Placeholder title={t('purchases')} />} /><Route path="/wallets" element={<Placeholder title={t('wallets')} />} /><Route path="/backup" element={<Placeholder title={t('backup')} />} /></Routes></div></div>
 }
