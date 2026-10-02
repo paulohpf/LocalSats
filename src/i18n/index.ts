@@ -33,6 +33,7 @@ const resources = {
       exportBackup: 'Exportar backup', exportBackupDescription: 'Baixe um arquivo JSON com configurações, carteiras e movimentações.', exportingBackup: 'Exportando...', downloadBackup: 'Baixar backup JSON', backupExported: 'Backup exportado com sucesso.', backupExportError: 'Não foi possível exportar o backup.',
       importBackup: 'Importar backup', importBackupDescription: 'Selecione um arquivo JSON exportado anteriormente pelo LocalSats.', selectBackupFile: 'Selecionar arquivo', backupInvalid: 'Arquivo de backup inválido.', backupInvalidFormat: 'Este arquivo não é um backup do LocalSats.', backupUnsupportedVersion: 'Esta versão de backup ainda não é suportada.',
       backupSummary: 'Resumo do backup', backupReadyToRestore: 'Backup pronto para restauração', backupExportedAt: 'Exportado em', backupVersion: 'Versão', restoreBackup: 'Restaurar backup', restoringBackup: 'Restaurando...', backupRestoreConfirm: 'Restaurar este backup substituirá carteiras, compras, vendas e configurações atuais. Deseja continuar?', backupRestored: 'Backup restaurado com sucesso.', backupRestoreError: 'Não foi possível restaurar o backup.',
+      exportCsv: 'Exportar CSV', exportCsvDescription: 'Baixe compras e vendas em CSV para análise em planilhas. CSV não substitui o backup JSON.', exportingCsv: 'Exportando...', downloadCsv: 'Baixar CSV', csvExported: 'CSV exportado com sucesso.', csvExportError: 'Não foi possível exportar o CSV.',
     },
   },
   en: {
@@ -66,6 +67,7 @@ const resources = {
       exportBackup: 'Export backup', exportBackupDescription: 'Download a JSON file with settings, wallets, and movements.', exportingBackup: 'Exporting...', downloadBackup: 'Download JSON backup', backupExported: 'Backup exported successfully.', backupExportError: 'Could not export the backup.',
       importBackup: 'Import backup', importBackupDescription: 'Select a JSON file previously exported by LocalSats.', selectBackupFile: 'Select file', backupInvalid: 'Invalid backup file.', backupInvalidFormat: 'This file is not a LocalSats backup.', backupUnsupportedVersion: 'This backup version is not supported yet.',
       backupSummary: 'Backup summary', backupReadyToRestore: 'Backup ready to restore', backupExportedAt: 'Exported at', backupVersion: 'Version', restoreBackup: 'Restore backup', restoringBackup: 'Restoring...', backupRestoreConfirm: 'Restoring this backup will replace current wallets, purchases, sales, and settings. Continue?', backupRestored: 'Backup restored successfully.', backupRestoreError: 'Could not restore the backup.',
+      exportCsv: 'Export CSV', exportCsvDescription: 'Download purchases and sales as CSV for spreadsheet analysis. CSV does not replace the JSON backup.', exportingCsv: 'Exporting...', downloadCsv: 'Download CSV', csvExported: 'CSV exported successfully.', csvExportError: 'Could not export the CSV.',
     },
   },
 }

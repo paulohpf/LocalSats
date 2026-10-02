@@ -16,14 +16,14 @@ Após cada implementação:
 ## Status do projeto
 
 **Estado atual:** Fases 1 a 6 parcialmente implementadas; compras/vendas,
-dashboard e backup JSON funcionais; testes, backup criptografado, refinamento
-mobile e validação offline ainda pendentes.
+dashboard, backup JSON e exportação CSV funcionais; testes, backup
+criptografado, refinamento mobile e validação offline ainda pendentes.
 
 **Última atualização:** 02/10/2026
 
 A aplicação já possui base técnica local-first, CRUD de carteiras, registro de
 compras e vendas, dashboard com métricas financeiras, integração de preço do
-Bitcoin via CoinGecko e exportação/importação de backup JSON.
+Bitcoin via CoinGecko, exportação/importação de backup JSON e exportação CSV.
 
 ## Resumo do que já foi feito
 
@@ -43,8 +43,8 @@ A consulta de preço atual do Bitcoin foi abstraída por serviço próprio, com
 integração ao CoinGecko Free Tier, cache local, deduplicação de requisições,
 fallback para o último preço conhecido e atualização manual pelo usuário.
 
-Ainda não foram implementados backup criptografado, exportação CSV, testes
-automatizados, refinamento mobile completo e validação offline final.
+Ainda não foram implementados backup criptografado, testes automatizados,
+refinamento mobile completo e validação offline final.
 
 ## Como a implementação está organizada
 
@@ -63,7 +63,6 @@ automatizados, refinamento mobile completo e validação offline final.
 ## Pendências principais
 
 - Implementar backup criptografado.
-- Implementar exportação CSV.
 - Criar testes automatizados para cálculos financeiros.
 - Criar testes para preço, cache, CoinGecko e preenchimento automático no modal.
 - Decidir se vendas acima do saldo devem gerar apenas aviso ou bloqueio.
@@ -136,7 +135,7 @@ automatizados, refinamento mobile completo e validação offline final.
 - [x] Validação da versão
 - [x] Resumo antes da restauração
 - [ ] Backup criptografado
-- [ ] Exportação CSV
+- [x] Exportação CSV
 
 ### Fase 7 — PWA offline
 
@@ -165,6 +164,19 @@ automatizados, refinamento mobile completo e validação offline final.
 - [ ] Testes de internacionalização
 
 ## Histórico de implementações
+
+### 02/10/2026 — Exportação CSV de movimentações
+
+- **Implementação:** exportação CSV de compras e vendas a partir da tela de
+  backup, com colunas para tipo, data, valor, moeda, preço do Bitcoin,
+  quantidade de BTC, taxa, nome da carteira, ID da carteira e observação. O CSV
+  foi tratado como formato analítico, sem substituir o backup JSON.
+- **Arquivos:** `src/features/backup/backup.service.ts`,
+  `src/features/backup/BackupPage.tsx`, `src/App.css`, `src/i18n/index.ts`,
+  `README.md` e `IMPLEMENTAÇÃO.md`.
+- **Testes:** `npm run build` e `npm run lint` concluídos com sucesso.
+- **Pendências:** adicionar testes automatizados para geração de CSV e manter o
+  backup JSON como formato oficial de restauração.
 
 ### 02/10/2026 — Fase 6: Backup JSON
 

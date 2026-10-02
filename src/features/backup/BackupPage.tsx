@@ -1,6 +1,6 @@
 import { useRef, useState, type ChangeEvent } from 'react'
 import { useTranslation } from 'react-i18next'
-import { backupFileName, createBackup, restoreBackup, summarizeBackup, validateBackup } from './backup.service'
+import { backupFileName, createBackup, createPurchasesCsv, csvFileName, restoreBackup, summarizeBackup, validateBackup } from './backup.service'
 import type { BackupSummary, LocalSatsBackup } from './backup.types'
 
 function downloadJson(fileName: string, data: unknown) {
@@ -13,10 +13,21 @@ function downloadJson(fileName: string, data: unknown) {
   URL.revokeObjectURL(url)
 }
 
+function downloadCsv(fileName: string, data: string) {
+  const blob = new Blob([`\uFEFF${data}`], { type: 'text/csv;charset=utf-8' })
+  const url = URL.createObjectURL(blob)
+  const link = document.createElement('a')
+  link.href = url
+  link.download = fileName
+  link.click()
+  URL.revokeObjectURL(url)
+}
+
 export function BackupPage() {
   const { t } = useTranslation()
   const inputRef = useRef<HTMLInputElement>(null)
   const [isExporting, setIsExporting] = useState(false)
+  const [isExportingCsv, setIsExportingCsv] = useState(false)
   const [isRestoring, setIsRestoring] = useState(false)
   const [pendingBackup, setPendingBackup] = useState<LocalSatsBackup | null>(null)
   const [summary, setSummary] = useState<BackupSummary | null>(null)
@@ -35,6 +46,21 @@ export function BackupPage() {
       setError(t('backupExportError'))
     } finally {
       setIsExporting(false)
+    }
+  }
+
+  async function exportCsv() {
+    setIsExportingCsv(true)
+    setError('')
+    setMessage('')
+    try {
+      const csv = await createPurchasesCsv()
+      downloadCsv(csvFileName(), csv)
+      setMessage(t('csvExported'))
+    } catch {
+      setError(t('csvExportError'))
+    } finally {
+      setIsExportingCsv(false)
     }
   }
 
@@ -91,6 +117,12 @@ export function BackupPage() {
         <p className="muted">{t('importBackupDescription')}</p>
         <input ref={inputRef} className="hidden-file-input" type="file" accept="application/json,.json" onChange={(event) => void readBackupFile(event)} />
         <button className="secondary" onClick={() => inputRef.current?.click()}>{t('selectBackupFile')}</button>
+      </section>
+      <section className="panel backup-card">
+        <span className="backup-icon">↗</span>
+        <h2>{t('exportCsv')}</h2>
+        <p className="muted">{t('exportCsvDescription')}</p>
+        <button className="secondary" onClick={() => void exportCsv()} disabled={isExportingCsv}>{isExportingCsv ? t('exportingCsv') : t('downloadCsv')}</button>
       </section>
     </div>
     {summary && <section className="panel backup-summary">
