@@ -15,12 +15,64 @@ Após cada implementação:
 
 ## Status do projeto
 
-**Estado atual:** Fundação concluída
+**Estado atual:** Fases 1 a 5 implementadas; compras/vendas e dashboard
+funcionais; backup, testes, refinamento mobile e validação offline ainda
+pendentes.
 
-**Última atualização:** 25/09/2026
+**Última atualização:** 02/10/2026
 
-A fundação inicial da aplicação foi criada. As áreas de carteiras, compras e
-backup ainda são placeholders.
+A aplicação já possui base técnica local-first, CRUD de carteiras, registro de
+compras e vendas, dashboard com métricas financeiras e integração de preço do
+Bitcoin via CoinGecko. A área de backup ainda é placeholder.
+
+## Resumo do que já foi feito
+
+Até o momento, o LocalSats possui uma base funcional com React, TypeScript e
+Vite, utilizando IndexedDB via Dexie para persistência local dos dados.
+
+A aplicação permite criar, editar, listar e excluir carteiras; registrar compras
+e vendas de Bitcoin; associar movimentações a carteiras; calcular quantidade de
+BTC automaticamente; registrar taxas; e adicionar observações.
+
+O dashboard calcula investimento líquido, saldo líquido em BTC ou satoshis,
+total vendido, preço médio, valor atual estimado, resultado financeiro e
+percentual. Também exibe gráficos de histórico de investimento e de acumulação
+de Bitcoin.
+
+A consulta de preço atual do Bitcoin foi abstraída por serviço próprio, com
+integração ao CoinGecko Free Tier, cache local, deduplicação de requisições,
+fallback para o último preço conhecido e atualização manual pelo usuário.
+
+Ainda não foram implementados backup/importação, exportação CSV, testes
+automatizados, refinamento mobile completo e validação offline final.
+
+## Como a implementação está organizada
+
+- `src/database/`: configuração do Dexie/IndexedDB e persistência local de
+  dados, configurações e preços.
+- `src/features/wallets/`: tela e serviço de carteiras, incluindo CRUD local.
+- `src/features/purchases/`: tela e serviço de movimentações de compra e venda.
+- `src/features/dashboard/`: dashboard principal, cards de métricas e gráficos.
+- `src/services/bitcoinPrice/`: abstração de provedor de preço, integração com
+  CoinGecko, cache e fallback local.
+- `src/utils/calculations.ts`: cálculos financeiros e históricos usados pelo
+  dashboard.
+- `src/i18n/index.ts`: traduções PT-BR e EN.
+- `src/types/index.ts`: tipos centrais da aplicação.
+
+## Pendências principais
+
+- Implementar exportação e importação de backup JSON.
+- Validar formato e versão dos backups antes da restauração.
+- Exibir resumo antes de restaurar backup.
+- Implementar backup criptografado.
+- Implementar exportação CSV.
+- Criar testes automatizados para cálculos financeiros.
+- Criar testes para preço, cache, CoinGecko e preenchimento automático no modal.
+- Decidir se vendas acima do saldo devem gerar apenas aviso ou bloqueio.
+- Validar funcionamento offline completo.
+- Refinar responsividade mobile.
+- Realizar revisão de privacidade e segurança.
 
 ## Progresso por fase
 
@@ -116,6 +168,15 @@ backup ainda são placeholders.
 - [ ] Testes de internacionalização
 
 ## Histórico de implementações
+
+### 02/10/2026 — Consolidação da documentação de implementação
+
+- **Implementação:** atualização do registro de implementação para refletir o
+  estado real do projeto, incluindo resumo do que já foi feito, organização do
+  código e pendências principais para manutenção futura.
+- **Arquivos:** `IMPLEMENTAÇÃO.md` e `README.md`.
+- **Testes:** não aplicável; alteração documental.
+- **Pendências:** manter este arquivo atualizado a cada nova entrega.
 
 ### 25/09/2026 — Registro inicial
 

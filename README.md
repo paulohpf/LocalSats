@@ -1,32 +1,105 @@
-# React + TypeScript + Vite
+# LocalSats
 
-This template provides a minimal setup to get React working in Vite with HMR and some Oxlint rules.
+LocalSats é uma aplicação web local-first para acompanhamento de compras
+recorrentes de Bitcoin. O objetivo é permitir que o usuário registre seu
+histórico de DCA, organize movimentações por carteira, acompanhe evolução
+patrimonial e mantenha os próprios dados sob controle local.
 
-Currently, two official plugins are available:
+Princípio do produto:
 
-- [@vitejs/plugin-react](https://github.com/vitejs/vite-plugin-react/blob/main/packages/plugin-react) uses [Oxc](https://oxc.rs)
-- [@vitejs/plugin-react-swc](https://github.com/vitejs/vite-plugin-react/blob/main/packages/plugin-react-swc) uses [SWC](https://swc.rs/)
+> Your Bitcoin. Your data.
 
-## React Compiler
+## Estado atual
 
-The React Compiler is not enabled on this template because of its impact on dev & build performances. To add it, see [this documentation](https://react.dev/learn/react-compiler/installation).
+O projeto já possui:
 
-## Expanding the Oxlint configuration
+- base React + TypeScript + Vite;
+- persistência local com Dexie/IndexedDB;
+- internacionalização PT-BR/EN;
+- temas claro e escuro;
+- PWA inicialmente configurada;
+- CRUD de carteiras;
+- registro de compras e vendas;
+- associação opcional de movimentações a carteiras;
+- cálculo automático de BTC;
+- dashboard com métricas financeiras;
+- gráficos de investimento e acumulação;
+- consulta de preço BTC via CoinGecko Free Tier;
+- cache local e fallback para último preço conhecido.
 
-If you are developing a production application, we recommend enabling type-aware lint rules by installing `oxlint-tsgolint` and editing `.oxlintrc.json`:
+Ainda estão pendentes backup/importação, exportação CSV, testes automatizados,
+validação offline completa e refinamento mobile.
 
-```json
-{
-  "$schema": "./node_modules/oxlint/configuration_schema.json",
-  "plugins": ["react", "typescript", "oxc"],
-  "options": {
-    "typeAware": true
-  },
-  "rules": {
-    "react/rules-of-hooks": "error",
-    "react/only-export-components": ["warn", { "allowConstantExport": true }]
-  }
-}
+## Stack
+
+- React
+- TypeScript
+- Vite
+- Dexie / IndexedDB
+- i18next / react-i18next
+- React Router
+- Oxlint
+
+## Scripts
+
+Instalar dependências:
+
+```bash
+npm install
 ```
 
-See the [Oxlint rules documentation](https://oxc.rs/docs/guide/usage/linter/rules) for the full list of rules and categories.
+Rodar em desenvolvimento:
+
+```bash
+npm run dev
+```
+
+Gerar build de produção:
+
+```bash
+npm run build
+```
+
+Executar lint:
+
+```bash
+npm run lint
+```
+
+Pré-visualizar build:
+
+```bash
+npm run preview
+```
+
+## Configuração de preço do Bitcoin
+
+A integração com CoinGecko pode usar uma chave de API opcional através da
+variável de ambiente:
+
+```bash
+VITE_COINGECKO_API_KEY=
+```
+
+Sem chave configurada, a aplicação usa o fluxo disponível para a camada gratuita,
+mantendo cache local e fallback para o último preço salvo.
+
+## Organização principal
+
+- `src/database/`: banco local, schema e configurações persistidas.
+- `src/features/wallets/`: carteiras.
+- `src/features/purchases/`: compras e vendas.
+- `src/features/dashboard/`: dashboard, métricas e gráficos.
+- `src/services/bitcoinPrice/`: provedor de preço BTC e cache.
+- `src/utils/calculations.ts`: cálculos financeiros.
+- `src/i18n/index.ts`: traduções.
+- `src/types/index.ts`: tipos compartilhados.
+
+## Documentação
+
+- [`DOCUMENTAÇÃO.md`](./DOCUMENTAÇÃO.md): plano de produto, arquitetura desejada,
+  roadmap e critérios do MVP.
+- [`IMPLEMENTAÇÃO.md`](./IMPLEMENTAÇÃO.md): registro do que foi efetivamente
+  implementado, arquivos envolvidos, testes executados e pendências.
+
+Para manutenção futura, atualize `IMPLEMENTAÇÃO.md` junto com cada entrega.
