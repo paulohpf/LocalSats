@@ -28,6 +28,11 @@ const resources = {
       noPurchasesDetail: 'Registre sua primeira compra para começar seu histórico.', date: 'Data', amount: 'Valor', btc: 'BTC', wallet: 'Carteira',
       withoutWallet: 'Sem carteira', currency: 'Moeda', bitcoinPrice: 'Preço do Bitcoin', fee: 'Taxa', note: 'Observação', calculatedBtc: 'BTC calculado',
       purchaseInvalid: 'Informe data, valor e preço do Bitcoin válidos.', purchaseSaveError: 'Não foi possível salvar a compra.', purchaseDeleteConfirm: 'Excluir esta compra?',
+      backupDescription: 'Exporte e restaure seus dados locais quando precisar trocar de dispositivo ou criar uma cópia de segurança.',
+      backupWarningTitle: 'Seus dados ficam somente neste dispositivo.', backupWarningText: 'O LocalSats não possui uma cópia dos seus dados. Faça backups regularmente.',
+      exportBackup: 'Exportar backup', exportBackupDescription: 'Baixe um arquivo JSON com configurações, carteiras e movimentações.', exportingBackup: 'Exportando...', downloadBackup: 'Baixar backup JSON', backupExported: 'Backup exportado com sucesso.', backupExportError: 'Não foi possível exportar o backup.',
+      importBackup: 'Importar backup', importBackupDescription: 'Selecione um arquivo JSON exportado anteriormente pelo LocalSats.', selectBackupFile: 'Selecionar arquivo', backupInvalid: 'Arquivo de backup inválido.', backupInvalidFormat: 'Este arquivo não é um backup do LocalSats.', backupUnsupportedVersion: 'Esta versão de backup ainda não é suportada.',
+      backupSummary: 'Resumo do backup', backupReadyToRestore: 'Backup pronto para restauração', backupExportedAt: 'Exportado em', backupVersion: 'Versão', restoreBackup: 'Restaurar backup', restoringBackup: 'Restaurando...', backupRestoreConfirm: 'Restaurar este backup substituirá carteiras, compras, vendas e configurações atuais. Deseja continuar?', backupRestored: 'Backup restaurado com sucesso.', backupRestoreError: 'Não foi possível restaurar o backup.',
     },
   },
   en: {
@@ -56,6 +61,11 @@ const resources = {
       noPurchasesDetail: 'Record your first purchase to start your history.', date: 'Date', amount: 'Amount', btc: 'BTC', wallet: 'Wallet',
       withoutWallet: 'No wallet', currency: 'Currency', bitcoinPrice: 'Bitcoin price', fee: 'Fee', note: 'Note', calculatedBtc: 'Calculated BTC',
       purchaseInvalid: 'Enter a valid date, amount, and Bitcoin price.', purchaseSaveError: 'Could not save the purchase.', purchaseDeleteConfirm: 'Delete this purchase?',
+      backupDescription: 'Export and restore your local data when you need to change devices or create a safety copy.',
+      backupWarningTitle: 'Your data stays only on this device.', backupWarningText: 'LocalSats does not keep a copy of your data. Back up regularly.',
+      exportBackup: 'Export backup', exportBackupDescription: 'Download a JSON file with settings, wallets, and movements.', exportingBackup: 'Exporting...', downloadBackup: 'Download JSON backup', backupExported: 'Backup exported successfully.', backupExportError: 'Could not export the backup.',
+      importBackup: 'Import backup', importBackupDescription: 'Select a JSON file previously exported by LocalSats.', selectBackupFile: 'Select file', backupInvalid: 'Invalid backup file.', backupInvalidFormat: 'This file is not a LocalSats backup.', backupUnsupportedVersion: 'This backup version is not supported yet.',
+      backupSummary: 'Backup summary', backupReadyToRestore: 'Backup ready to restore', backupExportedAt: 'Exported at', backupVersion: 'Version', restoreBackup: 'Restore backup', restoringBackup: 'Restoring...', backupRestoreConfirm: 'Restoring this backup will replace current wallets, purchases, sales, and settings. Continue?', backupRestored: 'Backup restored successfully.', backupRestoreError: 'Could not restore the backup.',
     },
   },
 }

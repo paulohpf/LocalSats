@@ -15,15 +15,15 @@ Após cada implementação:
 
 ## Status do projeto
 
-**Estado atual:** Fases 1 a 5 implementadas; compras/vendas e dashboard
-funcionais; backup, testes, refinamento mobile e validação offline ainda
-pendentes.
+**Estado atual:** Fases 1 a 6 parcialmente implementadas; compras/vendas,
+dashboard e backup JSON funcionais; testes, backup criptografado, refinamento
+mobile e validação offline ainda pendentes.
 
 **Última atualização:** 02/10/2026
 
 A aplicação já possui base técnica local-first, CRUD de carteiras, registro de
-compras e vendas, dashboard com métricas financeiras e integração de preço do
-Bitcoin via CoinGecko. A área de backup ainda é placeholder.
+compras e vendas, dashboard com métricas financeiras, integração de preço do
+Bitcoin via CoinGecko e exportação/importação de backup JSON.
 
 ## Resumo do que já foi feito
 
@@ -43,7 +43,7 @@ A consulta de preço atual do Bitcoin foi abstraída por serviço próprio, com
 integração ao CoinGecko Free Tier, cache local, deduplicação de requisições,
 fallback para o último preço conhecido e atualização manual pelo usuário.
 
-Ainda não foram implementados backup/importação, exportação CSV, testes
+Ainda não foram implementados backup criptografado, exportação CSV, testes
 automatizados, refinamento mobile completo e validação offline final.
 
 ## Como a implementação está organizada
@@ -62,9 +62,6 @@ automatizados, refinamento mobile completo e validação offline final.
 
 ## Pendências principais
 
-- Implementar exportação e importação de backup JSON.
-- Validar formato e versão dos backups antes da restauração.
-- Exibir resumo antes de restaurar backup.
 - Implementar backup criptografado.
 - Implementar exportação CSV.
 - Criar testes automatizados para cálculos financeiros.
@@ -133,11 +130,11 @@ automatizados, refinamento mobile completo e validação offline final.
 
 ### Fase 6 — Backup
 
-- [ ] Exportação de backup JSON
-- [ ] Importação de backup JSON
-- [ ] Validação do formato
-- [ ] Validação da versão
-- [ ] Resumo antes da restauração
+- [x] Exportação de backup JSON
+- [x] Importação de backup JSON
+- [x] Validação do formato
+- [x] Validação da versão
+- [x] Resumo antes da restauração
 - [ ] Backup criptografado
 - [ ] Exportação CSV
 
@@ -168,6 +165,18 @@ automatizados, refinamento mobile completo e validação offline final.
 - [ ] Testes de internacionalização
 
 ## Histórico de implementações
+
+### 02/10/2026 — Fase 6: Backup JSON
+
+- **Implementação:** tela real de backup, aviso local-first, exportação JSON de
+  configurações, carteiras e movimentações, importação de arquivo JSON,
+  validação de formato e versão, resumo antes da restauração e confirmação antes
+  de substituir os dados locais.
+- **Arquivos:** `src/features/backup/`, `src/App.tsx`, `src/App.css`,
+  `src/i18n/index.ts`, `README.md` e `IMPLEMENTAÇÃO.md`.
+- **Testes:** `npm run build` e `npm run lint` concluídos com sucesso.
+- **Pendências:** implementar backup criptografado, exportação CSV e testes
+  automatizados para exportação/importação e validação de backups.
 
 ### 02/10/2026 — Consolidação da documentação de implementação
 

@@ -25,10 +25,11 @@ O projeto já possui:
 - dashboard com métricas financeiras;
 - gráficos de investimento e acumulação;
 - consulta de preço BTC via CoinGecko Free Tier;
-- cache local e fallback para último preço conhecido.
+- cache local e fallback para último preço conhecido;
+- exportação e importação de backup JSON com validação e confirmação.
 
-Ainda estão pendentes backup/importação, exportação CSV, testes automatizados,
-validação offline completa e refinamento mobile.
+Ainda estão pendentes backup criptografado, exportação CSV, testes
+automatizados, validação offline completa e refinamento mobile.
 
 ## Stack
 
@@ -90,6 +91,7 @@ mantendo cache local e fallback para o último preço salvo.
 - `src/features/wallets/`: carteiras.
 - `src/features/purchases/`: compras e vendas.
 - `src/features/dashboard/`: dashboard, métricas e gráficos.
+- `src/features/backup/`: exportação, validação, resumo e restauração de backup.
 - `src/services/bitcoinPrice/`: provedor de preço BTC e cache.
 - `src/utils/calculations.ts`: cálculos financeiros.
 - `src/i18n/index.ts`: traduções.

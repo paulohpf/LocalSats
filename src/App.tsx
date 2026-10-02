@@ -7,13 +7,12 @@ import i18n from './i18n'
 import { WalletsPage } from './features/wallets/WalletsPage'
 import { PurchasesPage } from './features/purchases/PurchasesPage'
 import { DashboardPage } from './features/dashboard/DashboardPage'
+import { BackupPage } from './features/backup/BackupPage'
 import './App.css'
 
 function applyTheme(theme: Settings['theme']) {
   document.documentElement.dataset.theme = theme
 }
-
-function Placeholder({ title }: { title: string }) { return <main className="content"><p className="eyebrow">LocalSats</p><h1>{title}</h1><section className="panel empty"><span className="empty-icon">₿</span><p>Esta área será implementada nas próximas etapas.</p></section></main> }
 
 export default function App() {
   const { t } = useTranslation()
@@ -45,5 +44,5 @@ export default function App() {
   }
 
   const navigation = [['/', 'dashboard'], ['/purchases', 'purchases'], ['/wallets', 'wallets'], ['/backup', 'backup']]
-  return <div className="app-shell"><aside className="sidebar"><div className="brand"><span className="brand-mark">₿</span><span>Local<span className="accent">Sats</span></span></div><nav>{navigation.map(([path, label]) => <NavLink key={path} to={path} end={path === '/'} className={({ isActive }) => isActive ? 'nav-link active' : 'nav-link'}><span className="nav-dot" />{t(label)}</NavLink>)}</nav><div className="sidebar-footer"><span className="status-dot" /> {t('localFirst')}</div></aside><div className="main-area"><header className="topbar"><span className="mobile-brand">Local<span className="accent">Sats</span></span><div className="topbar-actions"><button aria-label="Alterar idioma" onClick={() => void toggleLanguage()}>EN / PT</button><button aria-label="Alterar tema" onClick={() => void cycleTheme()}>☼ {settings?.theme ?? 'dark'}</button></div></header><Routes><Route path="/" element={<DashboardPage />} /><Route path="/purchases" element={<PurchasesPage />} /><Route path="/wallets" element={<WalletsPage />} /><Route path="/backup" element={<Placeholder title={t('backup')} />} /></Routes></div></div>
+  return <div className="app-shell"><aside className="sidebar"><div className="brand"><span className="brand-mark">₿</span><span>Local<span className="accent">Sats</span></span></div><nav>{navigation.map(([path, label]) => <NavLink key={path} to={path} end={path === '/'} className={({ isActive }) => isActive ? 'nav-link active' : 'nav-link'}><span className="nav-dot" />{t(label)}</NavLink>)}</nav><div className="sidebar-footer"><span className="status-dot" /> {t('localFirst')}</div></aside><div className="main-area"><header className="topbar"><span className="mobile-brand">Local<span className="accent">Sats</span></span><div className="topbar-actions"><button aria-label="Alterar idioma" onClick={() => void toggleLanguage()}>EN / PT</button><button aria-label="Alterar tema" onClick={() => void cycleTheme()}>☼ {settings?.theme ?? 'dark'}</button></div></header><Routes><Route path="/" element={<DashboardPage />} /><Route path="/purchases" element={<PurchasesPage />} /><Route path="/wallets" element={<WalletsPage />} /><Route path="/backup" element={<BackupPage />} /></Routes></div></div>
 }
