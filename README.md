@@ -29,9 +29,10 @@ O projeto já possui:
 - exportação e importação de backup JSON com validação e confirmação;
 - exportação e importação de backup protegido por senha;
 - exportação CSV de compras e vendas para análise em planilhas;
-- PWA com service worker gerado por Workbox.
+- PWA com service worker gerado por Workbox;
+- navegação e telas principais ajustadas para mobile.
 
-Ainda estão pendentes validação offline manual completa e refinamento mobile.
+Ainda estão pendentes validação offline manual completa e testes de componentes.
 
 ## Stack
 
@@ -101,6 +102,22 @@ VITE_COINGECKO_API_KEY=
 Sem chave configurada, a aplicação usa o fluxo disponível para a camada gratuita,
 mantendo cache local e fallback para o último preço salvo.
 
+## Privacidade e segurança
+
+- Os dados financeiros ficam no IndexedDB local do navegador.
+- Não há login, conta de usuário ou banco de dados remoto da aplicação.
+- A única chamada externa esperada é para o CoinGecko, enviando apenas a moeda
+  desejada para consulta de preço BTC.
+- Carteiras, compras, vendas, notas, endereços e backups não são enviados pelo
+  LocalSats para servidores próprios.
+- Backups JSON, backups criptografados e CSVs são gerados localmente via
+  navegador.
+- Backups criptografados usam Web Crypto API com PBKDF2/SHA-256 e AES-GCM.
+- Senhas de backup não são armazenadas. Se a senha for perdida, o backup
+  criptografado não poderá ser recuperado.
+- O service worker faz cache de assets estáticos e pode cachear respostas
+  públicas de preço do CoinGecko, sem dados do usuário.
+
 ## Organização principal
 
 - `src/database/`: banco local, schema e configurações persistidas.
@@ -136,6 +153,17 @@ Após gerar o build e servir a aplicação em modo produção, validar no navega
 6. criar/editar dados locais;
 7. exportar backup JSON, backup criptografado e CSV;
 8. confirmar que idioma, tema e dados persistidos continuam disponíveis.
+
+## Validação mobile manual
+
+Validar em larguras próximas de 390px, 430px, 768px e 1024px:
+
+1. navegação inferior;
+2. cards de compras;
+3. criação/edição de compra e venda;
+4. modais de carteira, compra e backup criptografado;
+5. dashboard, gráficos e cards;
+6. tela de backup com JSON, criptografado e CSV.
 
 ## Documentação
 

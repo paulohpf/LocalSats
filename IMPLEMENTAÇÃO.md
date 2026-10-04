@@ -15,10 +15,10 @@ Após cada implementação:
 
 ## Status do projeto
 
-**Estado atual:** Fases 1 a 7 parcialmente implementadas com backup JSON, backup
+**Estado atual:** Fases 1 a 8 parcialmente implementadas com backup JSON, backup
 criptografado, exportação CSV, compras/vendas, dashboard, preço/cache BTC, i18n,
-PWA com Workbox e testes automatizados funcionais; refinamento mobile e validação
-manual offline ainda pendentes.
+PWA com Workbox, refinamento mobile inicial e testes automatizados funcionais;
+validação manual offline ainda pendente.
 
 **Última atualização:** 03/10/2026
 
@@ -26,8 +26,9 @@ A aplicação já possui base técnica local-first, CRUD de carteiras, registro 
 compras e vendas, dashboard com métricas financeiras, integração de preço do
 Bitcoin via CoinGecko, testes de preço/cache, exportação/importação de backup
 JSON, exportação/importação de backup criptografado com senha, exportação CSV,
-PWA gerada por `vite-plugin-pwa`, recursos de i18n testáveis e testes
-automatizados com Vitest e IndexedDB simulado.
+PWA gerada por `vite-plugin-pwa`, navegação inferior mobile, compras em cards no
+mobile, recursos de i18n testáveis e testes automatizados com Vitest e IndexedDB
+simulado.
 
 ## Resumo do que já foi feito
 
@@ -47,8 +48,8 @@ A consulta de preço atual do Bitcoin foi abstraída por serviço próprio, com
 integração ao CoinGecko Free Tier, cache local, deduplicação de requisições,
 fallback para o último preço conhecido e atualização manual pelo usuário.
 
-Ainda não foram implementados testes de componentes React, refinamento mobile
-completo e validação manual offline final em navegador.
+Ainda não foram implementados testes de componentes React e validação manual
+offline final em navegador.
 
 ## Como a implementação está organizada
 
@@ -70,7 +71,7 @@ completo e validação manual offline final em navegador.
 - Criar testes para preenchimento automático de preço no modal.
 - Decidir se vendas acima do saldo devem gerar apenas aviso ou bloqueio.
 - Validar funcionamento offline completo manualmente em navegador.
-- Refinar responsividade mobile.
+- Validar refinamento mobile manualmente em dispositivos reais.
 - Realizar revisão de privacidade e segurança.
 
 ## Progresso por fase
@@ -155,22 +156,69 @@ completo e validação manual offline final em navegador.
 
 ### Fase 8 — Refinamento mobile
 
-- [ ] Cards responsivos
-- [ ] Tabelas responsivas
-- [ ] Modais responsivos
-- [ ] Navegação mobile
+- [x] Cards responsivos
+- [x] Tabelas responsivas
+- [x] Modais responsivos
+- [x] Navegação mobile
 - [ ] Filtros responsivos
+- [ ] Validação manual em dispositivos reais
 
 ### Fase 9 — Segurança e testes
 
-- [ ] Revisão de privacidade
-- [ ] Nenhum dado financeiro em logs
-- [ ] Nenhum envio remoto de dados pessoais
+- [x] Revisão de privacidade
+- [x] Nenhum dado financeiro em logs
+- [x] Nenhum envio remoto de dados pessoais
 - [x] Testes dos cálculos financeiros
 - [x] Testes de backup
 - [x] Testes de internacionalização
 
 ## Histórico de implementações
+
+### 03/10/2026 — Revisão de privacidade e segurança
+
+- **Implementação:** auditoria de chamadas externas, logs, storage, variáveis de
+  ambiente, PWA/cache, dependências e fluxos de backup. Foi confirmado que a
+  única chamada externa esperada é a consulta pública de preço no CoinGecko, que
+  não há `console.log`/`debugger`, que dados financeiros permanecem no IndexedDB
+  e que backups são gerados localmente. Também foi ajustado o fechamento dos
+  modais de backup criptografado para limpar senhas e backup criptografado
+  pendente ao cancelar/fechar.
+- **Arquivos:** `src/features/backup/BackupPage.tsx`, `README.md` e
+  `IMPLEMENTAÇÃO.md`.
+- **Testes:** `npm run test`, `npm run build` e `npm run lint` concluídos com
+  sucesso.
+- **Resultado:** aprovado com observações documentadas. A validação offline
+  completa ainda depende de teste manual em navegador/dispositivo.
+
+#### Checklist verificado
+
+- [x] Sem envio de compras, vendas, carteiras, endereços, notas ou backups.
+- [x] Sem analytics, telemetria, `sendBeacon`, WebSocket ou EventSource.
+- [x] Sem `console.log`, `console.warn`, `console.error` ou `debugger` no código
+  da aplicação.
+- [x] Senhas de backup não são persistidas em IndexedDB, localStorage ou
+  sessionStorage.
+- [x] Senhas são limpas ao concluir, cancelar ou fechar modais de backup
+  criptografado.
+- [x] Backup descriptografado é validado antes de ser restaurado.
+- [x] Erro de senha incorreta usa mensagem genérica.
+- [x] Service worker cacheia assets estáticos e resposta pública do CoinGecko,
+  sem dados do usuário.
+- [x] `.env.example` contém apenas chave opcional do CoinGecko.
+
+### 03/10/2026 — Refinamento mobile inicial
+
+- **Implementação:** navegação inferior fixa para telas pequenas, ocultação da
+  sidebar no mobile, ajuste global de padding com área segura, cards de compras
+  no mobile com labels por campo, ações com área de toque ampliada, modais com
+  altura máxima e rolagem interna, botões empilhados em telas pequenas e ajustes
+  responsivos para dashboard, backup e gráficos.
+- **Arquivos:** `src/App.tsx`, `src/features/purchases/PurchasesPage.tsx`,
+  `src/App.css`, `README.md` e `IMPLEMENTAÇÃO.md`.
+- **Testes:** `npm run build`, `npm run test` e `npm run lint` concluídos com
+  sucesso.
+- **Pendências:** validar manualmente em larguras reais de celular/tablet e
+  ajustar detalhes visuais se necessário.
 
 ### 03/10/2026 — PWA com Workbox e cache offline
 

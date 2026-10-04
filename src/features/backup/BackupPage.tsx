@@ -50,6 +50,18 @@ export function BackupPage() {
   const [message, setMessage] = useState('')
   const [error, setError] = useState('')
 
+  function closeExportPasswordModal() {
+    setIsExportPasswordOpen(false)
+    setExportPassword('')
+    setExportPasswordConfirmation('')
+  }
+
+  function closeImportPasswordModal() {
+    setIsImportPasswordOpen(false)
+    setImportPassword('')
+    setPendingEncryptedBackup(null)
+  }
+
   async function exportBackup() {
     setIsExporting(true)
     setError('')
@@ -96,9 +108,7 @@ export function BackupPage() {
       const backup = await createBackup()
       const encrypted = await encryptBackup(backup, exportPassword)
       downloadJson(encryptedBackupFileName(), encrypted)
-      setIsExportPasswordOpen(false)
-      setExportPassword('')
-      setExportPasswordConfirmation('')
+      closeExportPasswordModal()
       setMessage(t('encryptedBackupExported'))
     } catch {
       setError(t('encryptedBackupExportError'))
@@ -148,9 +158,7 @@ export function BackupPage() {
       const backup = await decryptBackup(pendingEncryptedBackup, importPassword)
       setPendingBackup(backup)
       setSummary(summarizeBackup(backup))
-      setPendingEncryptedBackup(null)
-      setImportPassword('')
-      setIsImportPasswordOpen(false)
+      closeImportPasswordModal()
       setMessage(t('encryptedBackupDecrypted'))
     } catch {
       setError(t('encryptedBackupDecryptError'))
@@ -217,7 +225,7 @@ export function BackupPage() {
       </dl>
       <div className="modal-actions"><button className="secondary" onClick={() => { setPendingBackup(null); setSummary(null) }}>{t('cancel')}</button><button className="primary" onClick={() => void confirmRestore()} disabled={isRestoring}>{isRestoring ? t('restoringBackup') : t('restoreBackup')}</button></div>
     </section>}
-    {isExportPasswordOpen && <div className="modal-backdrop" role="presentation" onMouseDown={(event) => { if (event.target === event.currentTarget) setIsExportPasswordOpen(false) }}><section className="modal" role="dialog" aria-modal="true" aria-labelledby="encrypted-export-title"><div className="modal-heading"><h2 id="encrypted-export-title">{t('exportEncryptedBackup')}</h2><button className="close-button" aria-label={t('close')} onClick={() => setIsExportPasswordOpen(false)}>×</button></div><p className="muted password-warning">{t('encryptedBackupPasswordWarning')}</p><label>{t('password')}<input autoFocus type="password" value={exportPassword} onChange={(event) => setExportPassword(event.target.value)} /></label><label>{t('confirmPassword')}<input type="password" value={exportPasswordConfirmation} onChange={(event) => setExportPasswordConfirmation(event.target.value)} /></label><div className="modal-actions"><button type="button" className="secondary" onClick={() => setIsExportPasswordOpen(false)}>{t('cancel')}</button><button type="button" className="primary" onClick={() => void exportEncryptedBackup()} disabled={isExportingEncrypted}>{isExportingEncrypted ? t('exportingBackup') : t('exportEncryptedBackupButton')}</button></div></section></div>}
-    {isImportPasswordOpen && <div className="modal-backdrop" role="presentation" onMouseDown={(event) => { if (event.target === event.currentTarget) setIsImportPasswordOpen(false) }}><section className="modal" role="dialog" aria-modal="true" aria-labelledby="encrypted-import-title"><div className="modal-heading"><h2 id="encrypted-import-title">{t('unlockEncryptedBackup')}</h2><button className="close-button" aria-label={t('close')} onClick={() => setIsImportPasswordOpen(false)}>×</button></div><p className="muted password-warning">{t('unlockEncryptedBackupDescription')}</p><label>{t('password')}<input autoFocus type="password" value={importPassword} onChange={(event) => setImportPassword(event.target.value)} /></label><div className="modal-actions"><button type="button" className="secondary" onClick={() => setIsImportPasswordOpen(false)}>{t('cancel')}</button><button type="button" className="primary" onClick={() => void decryptPendingBackup()} disabled={isRestoring}>{isRestoring ? t('decryptingBackup') : t('unlockBackup')}</button></div></section></div>}
+    {isExportPasswordOpen && <div className="modal-backdrop" role="presentation" onMouseDown={(event) => { if (event.target === event.currentTarget) closeExportPasswordModal() }}><section className="modal" role="dialog" aria-modal="true" aria-labelledby="encrypted-export-title"><div className="modal-heading"><h2 id="encrypted-export-title">{t('exportEncryptedBackup')}</h2><button className="close-button" aria-label={t('close')} onClick={closeExportPasswordModal}>×</button></div><p className="muted password-warning">{t('encryptedBackupPasswordWarning')}</p><label>{t('password')}<input autoFocus type="password" value={exportPassword} onChange={(event) => setExportPassword(event.target.value)} /></label><label>{t('confirmPassword')}<input type="password" value={exportPasswordConfirmation} onChange={(event) => setExportPasswordConfirmation(event.target.value)} /></label><div className="modal-actions"><button type="button" className="secondary" onClick={closeExportPasswordModal}>{t('cancel')}</button><button type="button" className="primary" onClick={() => void exportEncryptedBackup()} disabled={isExportingEncrypted}>{isExportingEncrypted ? t('exportingBackup') : t('exportEncryptedBackupButton')}</button></div></section></div>}
+    {isImportPasswordOpen && <div className="modal-backdrop" role="presentation" onMouseDown={(event) => { if (event.target === event.currentTarget) closeImportPasswordModal() }}><section className="modal" role="dialog" aria-modal="true" aria-labelledby="encrypted-import-title"><div className="modal-heading"><h2 id="encrypted-import-title">{t('unlockEncryptedBackup')}</h2><button className="close-button" aria-label={t('close')} onClick={closeImportPasswordModal}>×</button></div><p className="muted password-warning">{t('unlockEncryptedBackupDescription')}</p><label>{t('password')}<input autoFocus type="password" value={importPassword} onChange={(event) => setImportPassword(event.target.value)} /></label><div className="modal-actions"><button type="button" className="secondary" onClick={closeImportPasswordModal}>{t('cancel')}</button><button type="button" className="primary" onClick={() => void decryptPendingBackup()} disabled={isRestoring}>{isRestoring ? t('decryptingBackup') : t('unlockBackup')}</button></div></section></div>}
   </main>
 }
