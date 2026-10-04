@@ -15,10 +15,9 @@ Após cada implementação:
 
 ## Status do projeto
 
-**Estado atual:** Fases 1 a 6 parcialmente implementadas; compras/vendas,
-dashboard, preço/cache BTC, backup JSON, exportação CSV, i18n, base
-criptográfica de backup e testes automatizados funcionais; integração do backup
-criptografado na interface, refinamento mobile e validação offline ainda
+**Estado atual:** Fases 1 a 6 implementadas com backup JSON, backup
+criptografado, exportação CSV, compras/vendas, dashboard, preço/cache BTC, i18n
+e testes automatizados funcionais; refinamento mobile e validação offline ainda
 pendentes.
 
 **Última atualização:** 03/10/2026
@@ -26,8 +25,9 @@ pendentes.
 A aplicação já possui base técnica local-first, CRUD de carteiras, registro de
 compras e vendas, dashboard com métricas financeiras, integração de preço do
 Bitcoin via CoinGecko, testes de preço/cache, exportação/importação de backup
-JSON, exportação CSV, base criptográfica para backup com senha, recursos de i18n
-testáveis e testes automatizados com Vitest e IndexedDB simulado.
+JSON, exportação/importação de backup criptografado com senha, exportação CSV,
+recursos de i18n testáveis e testes automatizados com Vitest e IndexedDB
+simulado.
 
 ## Resumo do que já foi feito
 
@@ -47,9 +47,8 @@ A consulta de preço atual do Bitcoin foi abstraída por serviço próprio, com
 integração ao CoinGecko Free Tier, cache local, deduplicação de requisições,
 fallback para o último preço conhecido e atualização manual pelo usuário.
 
-Ainda não foram implementados integração do backup criptografado na interface,
-testes de componentes React, refinamento mobile completo e validação offline
-final.
+Ainda não foram implementados testes de componentes React, refinamento mobile
+completo e validação offline final.
 
 ## Como a implementação está organizada
 
@@ -67,7 +66,6 @@ final.
 
 ## Pendências principais
 
-- Integrar backup criptografado na interface de exportação/importação.
 - Ampliar testes automatizados para componentes React.
 - Criar testes para preenchimento automático de preço no modal.
 - Decidir se vendas acima do saldo devem gerar apenas aviso ou bloqueio.
@@ -139,7 +137,7 @@ final.
 - [x] Validação do formato
 - [x] Validação da versão
 - [x] Resumo antes da restauração
-- [ ] Backup criptografado
+- [x] Backup criptografado
 - [x] Exportação CSV
 
 ### Fase 7 — PWA offline
@@ -170,6 +168,21 @@ final.
 
 ## Histórico de implementações
 
+### 03/10/2026 — Interface de backup criptografado
+
+- **Implementação:** integração do backup protegido por senha na tela de backup,
+  com modal de exportação criptografada, validação de senha mínima e confirmação,
+  detecção de arquivos criptografados na importação, modal para senha de
+  desbloqueio, descriptografia local e uso do resumo/fluxo de restauração já
+  existente.
+- **Arquivos:** `src/features/backup/BackupPage.tsx`, `src/App.css`,
+  `src/i18n/resources.ts`, `src/i18n/resources.test.ts`, `README.md` e
+  `IMPLEMENTAÇÃO.md`.
+- **Testes:** `npm run test`, `npm run build` e `npm run lint` concluídos com
+  sucesso.
+- **Pendências:** adicionar testes de componente para os modais de exportação e
+  importação criptografada em etapa futura.
+
 ### 03/10/2026 — Base criptográfica do backup protegido por senha
 
 - **Implementação:** tipos para backup criptografado, validação do formato
@@ -182,9 +195,7 @@ final.
   `IMPLEMENTAÇÃO.md`.
 - **Testes:** `npm run test`, `npm run build` e `npm run lint` concluídos com
   sucesso.
-- **Pendências:** adicionar fluxo visual para exportar e importar backup
-  criptografado, incluindo mensagens de senha obrigatória, senha perdida e erro
-  de descriptografia.
+- **Pendências:** adicionar testes de componente para a integração visual.
 
 ### 03/10/2026 — Testes de internacionalização
 

@@ -26,6 +26,7 @@ describe('i18n resources', () => {
       'wallets',
       'backup',
       'exportBackup',
+      'exportEncryptedBackup',
       'importBackup',
       'restoreBackup',
       'exportCsv',

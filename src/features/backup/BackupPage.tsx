@@ -1,7 +1,8 @@
 import { useRef, useState, type ChangeEvent } from 'react'
 import { useTranslation } from 'react-i18next'
+import { decryptBackup, encryptBackup, validateEncryptedBackup } from './backup.crypto'
 import { backupFileName, createBackup, createPurchasesCsv, csvFileName, restoreBackup, summarizeBackup, validateBackup } from './backup.service'
-import type { BackupSummary, LocalSatsBackup } from './backup.types'
+import { ENCRYPTED_BACKUP_FORMAT, type BackupSummary, type EncryptedLocalSatsBackup, type LocalSatsBackup } from './backup.types'
 
 function downloadJson(fileName: string, data: unknown) {
   const blob = new Blob([JSON.stringify(data, null, 2)], { type: 'application/json' })
@@ -23,14 +24,29 @@ function downloadCsv(fileName: string, data: string) {
   URL.revokeObjectURL(url)
 }
 
+function encryptedBackupFileName(date = new Date()) {
+  return `localsats-encrypted-backup-${date.toISOString().slice(0, 10)}.json`
+}
+
+function isRecord(value: unknown): value is Record<string, unknown> {
+  return typeof value === 'object' && value !== null
+}
+
 export function BackupPage() {
   const { t } = useTranslation()
   const inputRef = useRef<HTMLInputElement>(null)
   const [isExporting, setIsExporting] = useState(false)
+  const [isExportingEncrypted, setIsExportingEncrypted] = useState(false)
   const [isExportingCsv, setIsExportingCsv] = useState(false)
   const [isRestoring, setIsRestoring] = useState(false)
   const [pendingBackup, setPendingBackup] = useState<LocalSatsBackup | null>(null)
+  const [pendingEncryptedBackup, setPendingEncryptedBackup] = useState<EncryptedLocalSatsBackup | null>(null)
   const [summary, setSummary] = useState<BackupSummary | null>(null)
+  const [exportPassword, setExportPassword] = useState('')
+  const [exportPasswordConfirmation, setExportPasswordConfirmation] = useState('')
+  const [importPassword, setImportPassword] = useState('')
+  const [isExportPasswordOpen, setIsExportPasswordOpen] = useState(false)
+  const [isImportPasswordOpen, setIsImportPasswordOpen] = useState(false)
   const [message, setMessage] = useState('')
   const [error, setError] = useState('')
 
@@ -64,6 +80,33 @@ export function BackupPage() {
     }
   }
 
+  async function exportEncryptedBackup() {
+    setError('')
+    setMessage('')
+    if (exportPassword.length < 8) {
+      setError(t('encryptedBackupPasswordTooShort'))
+      return
+    }
+    if (exportPassword !== exportPasswordConfirmation) {
+      setError(t('encryptedBackupPasswordMismatch'))
+      return
+    }
+    setIsExportingEncrypted(true)
+    try {
+      const backup = await createBackup()
+      const encrypted = await encryptBackup(backup, exportPassword)
+      downloadJson(encryptedBackupFileName(), encrypted)
+      setIsExportPasswordOpen(false)
+      setExportPassword('')
+      setExportPasswordConfirmation('')
+      setMessage(t('encryptedBackupExported'))
+    } catch {
+      setError(t('encryptedBackupExportError'))
+    } finally {
+      setIsExportingEncrypted(false)
+    }
+  }
+
   async function readBackupFile(event: ChangeEvent<HTMLInputElement>) {
     const file = event.target.files?.[0]
     event.target.value = ''
@@ -72,6 +115,15 @@ export function BackupPage() {
     setMessage('')
     try {
       const parsed = JSON.parse(await file.text()) as unknown
+      if (isRecord(parsed) && parsed.format === ENCRYPTED_BACKUP_FORMAT) {
+        const encrypted = validateEncryptedBackup(parsed)
+        setPendingEncryptedBackup(encrypted)
+        setImportPassword('')
+        setIsImportPasswordOpen(true)
+        setPendingBackup(null)
+        setSummary(null)
+        return
+      }
       const backup = validateBackup(parsed)
       setPendingBackup(backup)
       setSummary(summarizeBackup(backup))
@@ -80,6 +132,30 @@ export function BackupPage() {
       setError(t(code === 'UNSUPPORTED_VERSION' ? 'backupUnsupportedVersion' : code === 'INVALID_FORMAT' ? 'backupInvalidFormat' : 'backupInvalid'))
       setPendingBackup(null)
       setSummary(null)
+    }
+  }
+
+  async function decryptPendingBackup() {
+    if (!pendingEncryptedBackup) return
+    setError('')
+    setMessage('')
+    if (!importPassword) {
+      setError(t('encryptedBackupPasswordRequired'))
+      return
+    }
+    setIsRestoring(true)
+    try {
+      const backup = await decryptBackup(pendingEncryptedBackup, importPassword)
+      setPendingBackup(backup)
+      setSummary(summarizeBackup(backup))
+      setPendingEncryptedBackup(null)
+      setImportPassword('')
+      setIsImportPasswordOpen(false)
+      setMessage(t('encryptedBackupDecrypted'))
+    } catch {
+      setError(t('encryptedBackupDecryptError'))
+    } finally {
+      setIsRestoring(false)
     }
   }
 
@@ -119,6 +195,12 @@ export function BackupPage() {
         <button className="secondary" onClick={() => inputRef.current?.click()}>{t('selectBackupFile')}</button>
       </section>
       <section className="panel backup-card">
+        <span className="backup-icon">🔒</span>
+        <h2>{t('exportEncryptedBackup')}</h2>
+        <p className="muted">{t('exportEncryptedBackupDescription')}</p>
+        <button className="secondary" onClick={() => { setError(''); setMessage(''); setIsExportPasswordOpen(true) }}>{t('exportEncryptedBackupButton')}</button>
+      </section>
+      <section className="panel backup-card">
         <span className="backup-icon">↗</span>
         <h2>{t('exportCsv')}</h2>
         <p className="muted">{t('exportCsvDescription')}</p>
@@ -135,5 +217,7 @@ export function BackupPage() {
       </dl>
       <div className="modal-actions"><button className="secondary" onClick={() => { setPendingBackup(null); setSummary(null) }}>{t('cancel')}</button><button className="primary" onClick={() => void confirmRestore()} disabled={isRestoring}>{isRestoring ? t('restoringBackup') : t('restoreBackup')}</button></div>
     </section>}
+    {isExportPasswordOpen && <div className="modal-backdrop" role="presentation" onMouseDown={(event) => { if (event.target === event.currentTarget) setIsExportPasswordOpen(false) }}><section className="modal" role="dialog" aria-modal="true" aria-labelledby="encrypted-export-title"><div className="modal-heading"><h2 id="encrypted-export-title">{t('exportEncryptedBackup')}</h2><button className="close-button" aria-label={t('close')} onClick={() => setIsExportPasswordOpen(false)}>×</button></div><p className="muted password-warning">{t('encryptedBackupPasswordWarning')}</p><label>{t('password')}<input autoFocus type="password" value={exportPassword} onChange={(event) => setExportPassword(event.target.value)} /></label><label>{t('confirmPassword')}<input type="password" value={exportPasswordConfirmation} onChange={(event) => setExportPasswordConfirmation(event.target.value)} /></label><div className="modal-actions"><button type="button" className="secondary" onClick={() => setIsExportPasswordOpen(false)}>{t('cancel')}</button><button type="button" className="primary" onClick={() => void exportEncryptedBackup()} disabled={isExportingEncrypted}>{isExportingEncrypted ? t('exportingBackup') : t('exportEncryptedBackupButton')}</button></div></section></div>}
+    {isImportPasswordOpen && <div className="modal-backdrop" role="presentation" onMouseDown={(event) => { if (event.target === event.currentTarget) setIsImportPasswordOpen(false) }}><section className="modal" role="dialog" aria-modal="true" aria-labelledby="encrypted-import-title"><div className="modal-heading"><h2 id="encrypted-import-title">{t('unlockEncryptedBackup')}</h2><button className="close-button" aria-label={t('close')} onClick={() => setIsImportPasswordOpen(false)}>×</button></div><p className="muted password-warning">{t('unlockEncryptedBackupDescription')}</p><label>{t('password')}<input autoFocus type="password" value={importPassword} onChange={(event) => setImportPassword(event.target.value)} /></label><div className="modal-actions"><button type="button" className="secondary" onClick={() => setIsImportPasswordOpen(false)}>{t('cancel')}</button><button type="button" className="primary" onClick={() => void decryptPendingBackup()} disabled={isRestoring}>{isRestoring ? t('decryptingBackup') : t('unlockBackup')}</button></div></section></div>}
   </main>
 }
