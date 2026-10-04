@@ -4,11 +4,10 @@ import { BrowserRouter } from 'react-router-dom'
 import App from './App'
 import './i18n'
 import './index.css'
+import { registerSW } from 'virtual:pwa-register'
 
 ReactDOM.createRoot(document.getElementById('root')!).render(
   <React.StrictMode><BrowserRouter><App /></BrowserRouter></React.StrictMode>,
 )
 
-if ('serviceWorker' in navigator && import.meta.env.PROD) {
-  window.addEventListener('load', () => void navigator.serviceWorker.register('/sw.js'))
-}
+registerSW({ immediate: true })

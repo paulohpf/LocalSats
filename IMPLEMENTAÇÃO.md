@@ -15,10 +15,10 @@ Após cada implementação:
 
 ## Status do projeto
 
-**Estado atual:** Fases 1 a 6 implementadas com backup JSON, backup
-criptografado, exportação CSV, compras/vendas, dashboard, preço/cache BTC, i18n
-e testes automatizados funcionais; refinamento mobile e validação offline ainda
-pendentes.
+**Estado atual:** Fases 1 a 7 parcialmente implementadas com backup JSON, backup
+criptografado, exportação CSV, compras/vendas, dashboard, preço/cache BTC, i18n,
+PWA com Workbox e testes automatizados funcionais; refinamento mobile e validação
+manual offline ainda pendentes.
 
 **Última atualização:** 03/10/2026
 
@@ -26,8 +26,8 @@ A aplicação já possui base técnica local-first, CRUD de carteiras, registro 
 compras e vendas, dashboard com métricas financeiras, integração de preço do
 Bitcoin via CoinGecko, testes de preço/cache, exportação/importação de backup
 JSON, exportação/importação de backup criptografado com senha, exportação CSV,
-recursos de i18n testáveis e testes automatizados com Vitest e IndexedDB
-simulado.
+PWA gerada por `vite-plugin-pwa`, recursos de i18n testáveis e testes
+automatizados com Vitest e IndexedDB simulado.
 
 ## Resumo do que já foi feito
 
@@ -48,7 +48,7 @@ integração ao CoinGecko Free Tier, cache local, deduplicação de requisiçõe
 fallback para o último preço conhecido e atualização manual pelo usuário.
 
 Ainda não foram implementados testes de componentes React, refinamento mobile
-completo e validação offline final.
+completo e validação manual offline final em navegador.
 
 ## Como a implementação está organizada
 
@@ -69,7 +69,7 @@ completo e validação offline final.
 - Ampliar testes automatizados para componentes React.
 - Criar testes para preenchimento automático de preço no modal.
 - Decidir se vendas acima do saldo devem gerar apenas aviso ou bloqueio.
-- Validar funcionamento offline completo.
+- Validar funcionamento offline completo manualmente em navegador.
 - Refinar responsividade mobile.
 - Realizar revisão de privacidade e segurança.
 
@@ -142,12 +142,16 @@ completo e validação offline final.
 
 ### Fase 7 — PWA offline
 
-- [ ] Carregamento offline
-- [ ] Operações locais offline
-- [ ] Registro e edição de compras offline
-- [ ] Backup offline
-- [ ] Gráficos offline
-- [ ] Traduções disponíveis offline
+- [x] Service worker gerado por Workbox
+- [x] Cache de assets do build
+- [x] Fallback de navegação SPA
+- [x] Cache runtime para consulta CoinGecko
+- [ ] Carregamento offline validado manualmente
+- [ ] Operações locais offline validadas manualmente
+- [ ] Registro e edição de compras offline validados manualmente
+- [ ] Backup offline validado manualmente
+- [ ] Gráficos offline validados manualmente
+- [ ] Traduções disponíveis offline validadas manualmente
 
 ### Fase 8 — Refinamento mobile
 
@@ -167,6 +171,22 @@ completo e validação offline final.
 - [x] Testes de internacionalização
 
 ## Histórico de implementações
+
+### 03/10/2026 — PWA com Workbox e cache offline
+
+- **Implementação:** substituição do service worker manual por
+  `vite-plugin-pwa`, geração automática de service worker Workbox, precache dos
+  assets do build, fallback de navegação para rotas SPA e cache runtime
+  `NetworkFirst` para a consulta de preço do CoinGecko.
+- **Arquivos:** `package.json`, `package-lock.json`, `vite.config.ts`,
+  `tsconfig.app.json`, `src/main.tsx`, `public/sw.js`, `README.md` e
+  `IMPLEMENTAÇÃO.md`.
+- **Testes:** `npm run build`, `npm run test` e `npm run lint` concluídos com
+  sucesso. O build gerou `dist/sw.js` e `dist/workbox-*.js`.
+- **Checklist manual pendente:** abrir a aplicação em produção, instalar como
+  PWA, desativar a rede no navegador e validar navegação, dashboard com último
+  preço salvo, criação/edição de carteiras, compras, vendas, backup JSON,
+  backup criptografado, exportação CSV, tema e idioma.
 
 ### 03/10/2026 — Interface de backup criptografado
 

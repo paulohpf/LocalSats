@@ -28,9 +28,10 @@ O projeto já possui:
 - cache local e fallback para último preço conhecido;
 - exportação e importação de backup JSON com validação e confirmação;
 - exportação e importação de backup protegido por senha;
-- exportação CSV de compras e vendas para análise em planilhas.
+- exportação CSV de compras e vendas para análise em planilhas;
+- PWA com service worker gerado por Workbox.
 
-Ainda estão pendentes validação offline completa e refinamento mobile.
+Ainda estão pendentes validação offline manual completa e refinamento mobile.
 
 ## Stack
 
@@ -121,6 +122,20 @@ mantendo cache local e fallback para o último preço salvo.
 - `src/i18n/resources.test.ts`: testes de paridade e chaves críticas de i18n.
 - `src/i18n/index.ts`: inicialização do i18next.
 - `src/types/index.ts`: tipos compartilhados.
+- `vite.config.ts`: configuração Vite e PWA/Workbox.
+
+## Validação offline manual
+
+Após gerar o build e servir a aplicação em modo produção, validar no navegador:
+
+1. abrir a aplicação uma vez online;
+2. instalar como PWA, quando disponível;
+3. desativar a rede;
+4. recarregar a aplicação;
+5. navegar entre Dashboard, Compras, Carteiras e Backup;
+6. criar/editar dados locais;
+7. exportar backup JSON, backup criptografado e CSV;
+8. confirmar que idioma, tema e dados persistidos continuam disponíveis.
 
 ## Documentação
 
