@@ -20,7 +20,7 @@ criptografado, exportação CSV, compras/vendas, dashboard, preço/cache BTC, i1
 PWA com Workbox, refinamento mobile inicial e testes automatizados funcionais;
 validação manual offline ainda pendente.
 
-**Última atualização:** 03/10/2026
+**Última atualização:** 04/10/2026
 
 A aplicação já possui base técnica local-first, CRUD de carteiras, registro de
 compras e vendas, dashboard com métricas financeiras, integração de preço do
@@ -173,6 +173,32 @@ offline final em navegador.
 - [x] Testes de internacionalização
 
 ## Histórico de implementações
+
+### 04/10/2026 — Refinamento de legibilidade do tema claro
+
+- **Implementação:** revisão dos overrides do tema light para melhorar contraste
+  e leitura de textos secundários, cards, painéis, navegação, botões, compras,
+  compras recentes, modais, inputs, avisos, carteira, backup e metadados do
+  dashboard.
+- **Arquivos:** `src/App.css` e `IMPLEMENTAÇÃO.md`.
+- **Testes:** `npm run test`, `npm run build` e `npm run lint` concluídos com
+  sucesso.
+- **Pendências:** validar visualmente em navegador real nos temas light/dark para
+  confirmar contraste e hierarquia visual em todas as telas.
+
+### 04/10/2026 — Ajuste mobile do dashboard e idioma padrão EN
+
+- **Implementação:** refinamento pontual da lista de compras recentes no
+  dashboard mobile, mantendo o formato de lista e apenas melhorando espaçamento,
+  quebra de linhas e hierarquia visual. A configuração inicial de idioma também
+  foi alterada para priorizar EN em novos usuários, preservando a preferência
+  salva quando existente.
+- **Arquivos:** `src/features/dashboard/DashboardPage.tsx`, `src/App.css`,
+  `src/database/settings.ts`, `src/i18n/index.ts` e `IMPLEMENTAÇÃO.md`.
+- **Testes:** `npm run test`, `npm run build` e `npm run lint` concluídos com
+  sucesso.
+- **Pendências:** validar visualmente em navegador/dispositivo real se a lista de
+  compras recentes ficou confortável em larguras de 390px e 430px.
 
 ### 03/10/2026 — Revisão de privacidade e segurança
 

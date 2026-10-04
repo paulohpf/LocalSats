@@ -3,7 +3,7 @@ import type { Settings } from '../types'
 
 export const defaultSettings: Settings = {
   id: 'current',
-  language: 'pt-BR',
+  language: 'en',
   currency: 'BRL',
   theme: 'dark',
   btcDisplayUnit: 'BTC',

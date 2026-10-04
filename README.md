@@ -32,6 +32,9 @@ O projeto já possui:
 - PWA com service worker gerado por Workbox;
 - navegação e telas principais ajustadas para mobile.
 
+Novos usuários iniciam com a interface em inglês. A preferência escolhida pelo
+usuário continua sendo salva localmente.
+
 Ainda estão pendentes validação offline manual completa e testes de componentes.
 
 ## Stack
