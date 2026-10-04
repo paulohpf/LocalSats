@@ -171,8 +171,80 @@ offline final em navegador.
 - [x] Testes dos cálculos financeiros
 - [x] Testes de backup
 - [x] Testes de internacionalização
+- [x] Testes de componente do backup
+- [x] Testes E2E desktop/mobile de fluxos principais
 
 ## Histórico de implementações
+
+### 04/10/2026 — Cobertura E2E de backup criptografado
+
+- **Implementação:** criação de testes E2E para exportação de backup
+  criptografado, validação da estrutura do arquivo baixado, tentativa de
+  desbloqueio com senha incorreta, desbloqueio com senha correta e restauração
+  dos dados criptografados, incluindo verificação de que dados temporários são
+  substituídos pelo backup restaurado.
+- **Arquivos:** `tests/e2e/encrypted-backup.spec.ts`,
+  `tests/e2e/data-flows.spec.ts`, `README.md` e `IMPLEMENTAÇÃO.md`.
+- **Testes:** `npm run test:e2e`, `npm run test`, `npm run build` e
+  `npm run lint` concluídos com sucesso.
+- **Resultado:** suíte E2E expandida para 16 testes passando em desktop/mobile,
+  além de 34 testes unitários/de componente passando.
+
+### 04/10/2026 — Ampliação E2E de fluxos principais
+
+- **Implementação:** criação de testes E2E adicionais para fluxo real de dados,
+  cobrindo criação de carteira, registro de compra, registro de venda, validação
+  de saldos no dashboard e downloads de backup JSON e CSV. Os testes rodam nos
+  projetos desktop e mobile do Playwright.
+- **Arquivos:** `tests/e2e/data-flows.spec.ts`, `README.md` e
+  `IMPLEMENTAÇÃO.md`.
+- **Testes:** `npm run test:e2e`, `npm run test`, `npm run build` e
+  `npm run lint` concluídos com sucesso.
+- **Resultado:** suíte E2E expandida para 10 testes passando, além de 34 testes
+  unitários/de componente passando.
+
+### 04/10/2026 — Cobertura E2E local-first e backup JSON
+
+- **Implementação:** ampliação dos testes E2E para validar persistência de dados
+  após reload, leitura e validação do conteúdo baixado nos arquivos JSON/CSV e
+  fluxo de importação/restauração de backup JSON via upload de arquivo, incluindo
+  confirmação nativa do navegador.
+- **Arquivos:** `tests/e2e/data-flows.spec.ts`, `README.md` e
+  `IMPLEMENTAÇÃO.md`.
+- **Testes:** `npm run test:e2e`, `npm run test`, `npm run build` e
+  `npm run lint` concluídos com sucesso.
+- **Resultado:** suíte E2E expandida para 14 testes passando em desktop/mobile,
+  além de 34 testes unitários/de componente passando.
+
+### 04/10/2026 — Configuração inicial de testes E2E com Playwright
+
+- **Implementação:** instalação e configuração do Playwright, scripts `test:e2e`
+  e `test:e2e:ui`, configuração de projetos desktop/mobile e criação de testes
+  E2E iniciais para navegação principal, idioma/tema e validação do modal de
+  backup criptografado.
+- **Arquivos:** `package.json`, `package-lock.json`, `playwright.config.ts`,
+  `tests/e2e/app.spec.ts`, `vitest.config.ts`, `README.md` e
+  `IMPLEMENTAÇÃO.md`.
+- **Testes:** `npm run test:e2e`, `npm run test`, `npm run build` e
+  `npm run lint` concluídos com sucesso. O Playwright validou os fluxos em
+  projetos desktop e mobile.
+- **Observação:** se o Chromium do Playwright não estiver instalado no ambiente,
+  executar `npx playwright install chromium`. Em ambientes Linux sem dependências
+  nativas, pode ser necessário `npx playwright install-deps chromium` com
+  permissão administrativa.
+
+### 04/10/2026 — Testes de componente para BackupPage
+
+- **Implementação:** configuração de Testing Library/Jest DOM e criação de testes
+  de componente para a tela de backup, cobrindo renderização das ações principais,
+  abertura/fechamento do modal de backup criptografado e validações de senha
+  curta e senhas divergentes.
+- **Arquivos:** `package.json`, `package-lock.json`, `src/test/setup.ts`,
+  `src/features/backup/BackupPage.test.tsx`, `README.md` e `IMPLEMENTAÇÃO.md`.
+- **Testes:** `npm run test`, `npm run build` e `npm run lint` concluídos com
+  sucesso.
+- **Pendências:** adicionar testes E2E com Playwright para fluxos completos em
+  navegador real e validação offline automatizada parcial.
 
 ### 04/10/2026 — Refinamento de legibilidade do tema claro
 

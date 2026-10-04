@@ -48,6 +48,8 @@ Ainda estão pendentes validação offline manual completa e testes de component
 - Oxlint
 - Vitest
 - fake-indexeddb
+- Testing Library
+- Playwright
 
 ## Scripts
 
@@ -85,6 +87,18 @@ Executar testes em modo observação:
 
 ```bash
 npm run test:watch
+```
+
+Executar testes E2E:
+
+```bash
+npm run test:e2e
+```
+
+Se o navegador do Playwright ainda não estiver instalado no ambiente:
+
+```bash
+npx playwright install chromium
 ```
 
 Pré-visualizar build:
@@ -129,6 +143,8 @@ mantendo cache local e fallback para o último preço salvo.
 - `src/features/dashboard/`: dashboard, métricas e gráficos.
 - `src/features/backup/`: exportação, validação, resumo, restauração de backup e
   exportação CSV.
+- `src/features/backup/BackupPage.test.tsx`: testes de componente da tela de
+  backup e modal de backup criptografado.
 - `src/features/backup/backup.crypto.ts`: criptografia e descriptografia local de
   backups protegidos por senha.
 - `src/features/backup/backup.indexeddb.test.ts`: testes do fluxo de backup com
@@ -143,6 +159,11 @@ mantendo cache local e fallback para o último preço salvo.
 - `src/i18n/index.ts`: inicialização do i18next.
 - `src/types/index.ts`: tipos compartilhados.
 - `vite.config.ts`: configuração Vite e PWA/Workbox.
+- `playwright.config.ts`: configuração dos testes E2E.
+- `tests/e2e/`: testes E2E em navegador real, cobrindo navegação, idioma/tema,
+  carteira, compra, venda, persistência após reload, exportação JSON/CSV com
+  validação de conteúdo, importação/restauração de backup JSON, exportação de
+  backup criptografado, senha incorreta e restauração criptografada.
 
 ## Validação offline manual
 
