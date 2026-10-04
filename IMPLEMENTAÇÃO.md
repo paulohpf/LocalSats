@@ -16,14 +16,17 @@ Após cada implementação:
 ## Status do projeto
 
 **Estado atual:** Fases 1 a 6 parcialmente implementadas; compras/vendas,
-dashboard, backup JSON e exportação CSV funcionais; testes, backup
-criptografado, refinamento mobile e validação offline ainda pendentes.
+dashboard, preço/cache BTC, backup JSON, exportação CSV, i18n e testes
+automatizados funcionais; backup criptografado, refinamento mobile e validação
+offline ainda pendentes.
 
-**Última atualização:** 02/10/2026
+**Última atualização:** 03/10/2026
 
 A aplicação já possui base técnica local-first, CRUD de carteiras, registro de
 compras e vendas, dashboard com métricas financeiras, integração de preço do
-Bitcoin via CoinGecko, exportação/importação de backup JSON e exportação CSV.
+Bitcoin via CoinGecko, testes de preço/cache, exportação/importação de backup
+JSON, exportação CSV, recursos de i18n testáveis e testes automatizados com
+Vitest e IndexedDB simulado.
 
 ## Resumo do que já foi feito
 
@@ -43,7 +46,7 @@ A consulta de preço atual do Bitcoin foi abstraída por serviço próprio, com
 integração ao CoinGecko Free Tier, cache local, deduplicação de requisições,
 fallback para o último preço conhecido e atualização manual pelo usuário.
 
-Ainda não foram implementados backup criptografado, testes automatizados,
+Ainda não foram implementados backup criptografado, testes de componentes React,
 refinamento mobile completo e validação offline final.
 
 ## Como a implementação está organizada
@@ -63,8 +66,8 @@ refinamento mobile completo e validação offline final.
 ## Pendências principais
 
 - Implementar backup criptografado.
-- Criar testes automatizados para cálculos financeiros.
-- Criar testes para preço, cache, CoinGecko e preenchimento automático no modal.
+- Ampliar testes automatizados para componentes React.
+- Criar testes para preenchimento automático de preço no modal.
 - Decidir se vendas acima do saldo devem gerar apenas aviso ou bloqueio.
 - Validar funcionamento offline completo.
 - Refinar responsividade mobile.
@@ -159,11 +162,69 @@ refinamento mobile completo e validação offline final.
 - [ ] Revisão de privacidade
 - [ ] Nenhum dado financeiro em logs
 - [ ] Nenhum envio remoto de dados pessoais
-- [ ] Testes dos cálculos financeiros
-- [ ] Testes de backup
-- [ ] Testes de internacionalização
+- [x] Testes dos cálculos financeiros
+- [x] Testes de backup
+- [x] Testes de internacionalização
 
 ## Histórico de implementações
+
+### 03/10/2026 — Testes de internacionalização
+
+- **Implementação:** separação dos recursos de tradução para um módulo testável
+  e criação de testes para garantir paridade de chaves entre PT-BR e EN,
+  ausência de traduções vazias e presença de chaves críticas de navegação,
+  backup, validação e preço.
+- **Arquivos:** `src/i18n/resources.ts`, `src/i18n/index.ts`,
+  `src/i18n/resources.test.ts`, `README.md` e `IMPLEMENTAÇÃO.md`.
+- **Testes:** `npm run test`, `npm run build` e `npm run lint` concluídos com
+  sucesso.
+- **Pendências:** manter `resources.test.ts` atualizado sempre que novas chaves
+  críticas forem adicionadas.
+
+### 03/10/2026 — Testes do serviço de preço e CoinGecko
+
+- **Implementação:** testes automatizados para o provider CoinGecko e para o
+  serviço de preço/cache, cobrindo consulta por moeda, resposta HTTP inválida,
+  payload inválido, armazenamento de snapshot, uso de cache fresco, fallback
+  para cache antigo em erro do provider e deduplicação de requisições
+  simultâneas.
+- **Arquivos:** `src/services/bitcoinPrice/coinGeckoProvider.test.ts`,
+  `src/services/bitcoinPrice/bitcoinPrice.service.test.ts` e
+  `IMPLEMENTAÇÃO.md`.
+- **Testes:** `npm run test`, `npm run build` e `npm run lint` concluídos com
+  sucesso.
+- **Pendências:** testar integração do preenchimento automático de preço no modal
+  de compras em etapa futura.
+
+### 03/10/2026 — Testes de backup com IndexedDB simulado
+
+- **Implementação:** adição do `fake-indexeddb`, configuração de setup do
+  Vitest, testes de integração do serviço de backup com banco local simulado,
+  cobrindo criação de backup, restauração de dados e exportação CSV a partir das
+  tabelas IndexedDB.
+- **Arquivos:** `package.json`, `package-lock.json`, `vitest.config.ts`,
+  `tsconfig.node.json`, `src/test/setup.ts`,
+  `src/features/backup/backup.indexeddb.test.ts`, `README.md` e
+  `IMPLEMENTAÇÃO.md`.
+- **Testes:** `npm run test`, `npm run build` e `npm run lint` concluídos com
+  sucesso.
+- **Pendências:** adicionar testes para serviços de preço/cache, componentes
+  React e internacionalização em etapas futuras.
+
+### 03/10/2026 — Primeira rodada de testes automatizados
+
+- **Implementação:** configuração do Vitest, scripts de teste, testes para
+  cálculos financeiros, validação e resumo de backup, escape de células CSV e
+  geração de CSV de compras e vendas. A geração de CSV foi separada em função
+  pura para facilitar testes sem IndexedDB.
+- **Arquivos:** `package.json`, `package-lock.json`,
+  `src/utils/calculations.test.ts`,
+  `src/features/backup/backup.service.ts`,
+  `src/features/backup/backup.service.test.ts`, `README.md` e
+  `IMPLEMENTAÇÃO.md`.
+- **Testes:** `npm run test`, `npm run build` e `npm run lint` concluídos com
+  sucesso.
+- **Pendências:** testar serviços de preço e componentes React em etapa futura.
 
 ### 02/10/2026 — Exportação CSV de movimentações
 

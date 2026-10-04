@@ -41,6 +41,8 @@ offline completa e refinamento mobile.
 - i18next / react-i18next
 - React Router
 - Oxlint
+- Vitest
+- fake-indexeddb
 
 ## Scripts
 
@@ -66,6 +68,18 @@ Executar lint:
 
 ```bash
 npm run lint
+```
+
+Executar testes automatizados:
+
+```bash
+npm run test
+```
+
+Executar testes em modo observação:
+
+```bash
+npm run test:watch
 ```
 
 Pré-visualizar build:
@@ -94,9 +108,16 @@ mantendo cache local e fallback para o último preço salvo.
 - `src/features/dashboard/`: dashboard, métricas e gráficos.
 - `src/features/backup/`: exportação, validação, resumo, restauração de backup e
   exportação CSV.
+- `src/features/backup/backup.indexeddb.test.ts`: testes do fluxo de backup com
+  IndexedDB simulado.
 - `src/services/bitcoinPrice/`: provedor de preço BTC e cache.
+- `src/services/bitcoinPrice/*.test.ts`: testes do provider CoinGecko e do
+  serviço de preço/cache.
 - `src/utils/calculations.ts`: cálculos financeiros.
-- `src/i18n/index.ts`: traduções.
+- `src/utils/calculations.test.ts`: testes dos cálculos financeiros.
+- `src/i18n/resources.ts`: recursos de tradução PT-BR/EN.
+- `src/i18n/resources.test.ts`: testes de paridade e chaves críticas de i18n.
+- `src/i18n/index.ts`: inicialização do i18next.
 - `src/types/index.ts`: tipos compartilhados.
 
 ## Documentação

@@ -64,17 +64,13 @@ export async function createBackup(): Promise<LocalSatsBackup> {
   }
 }
 
-function csvCell(value: unknown): string {
+export function csvCell(value: unknown): string {
   if (value === undefined || value === null) return ''
   const text = String(value)
   return `"${text.replaceAll('"', '""')}"`
 }
 
-export async function createPurchasesCsv(): Promise<string> {
-  const [wallets, purchases] = await Promise.all([
-    db.wallets.toArray(),
-    db.purchases.orderBy('date').toArray(),
-  ])
+export function purchasesToCsv(purchases: Purchase[], wallets: Wallet[]): string {
   const walletNameById = new Map(wallets.map((wallet) => [wallet.id, wallet.name]))
   const headers = ['type', 'date', 'amount', 'currency', 'bitcoinPrice', 'btcAmount', 'fee', 'walletName', 'walletId', 'note']
   const rows = purchases.map((purchase) => [
@@ -90,6 +86,14 @@ export async function createPurchasesCsv(): Promise<string> {
     purchase.note ?? '',
   ])
   return [headers, ...rows].map((row) => row.map(csvCell).join(';')).join('\n')
+}
+
+export async function createPurchasesCsv(): Promise<string> {
+  const [wallets, purchases] = await Promise.all([
+    db.wallets.toArray(),
+    db.purchases.orderBy('date').toArray(),
+  ])
+  return purchasesToCsv(purchases, wallets)
 }
 
 export function validateBackup(value: unknown): LocalSatsBackup {
