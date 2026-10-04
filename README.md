@@ -27,9 +27,10 @@ O projeto já possui:
 - consulta de preço BTC via CoinGecko Free Tier;
 - cache local e fallback para último preço conhecido;
 - exportação e importação de backup JSON com validação e confirmação;
+- base criptográfica para backup protegido por senha;
 - exportação CSV de compras e vendas para análise em planilhas.
 
-Ainda estão pendentes backup criptografado, testes automatizados, validação
+Ainda estão pendentes integração do backup criptografado na interface, validação
 offline completa e refinamento mobile.
 
 ## Stack
@@ -108,6 +109,8 @@ mantendo cache local e fallback para o último preço salvo.
 - `src/features/dashboard/`: dashboard, métricas e gráficos.
 - `src/features/backup/`: exportação, validação, resumo, restauração de backup e
   exportação CSV.
+- `src/features/backup/backup.crypto.ts`: criptografia e descriptografia local de
+  backups protegidos por senha.
 - `src/features/backup/backup.indexeddb.test.ts`: testes do fluxo de backup com
   IndexedDB simulado.
 - `src/services/bitcoinPrice/`: provedor de preço BTC e cache.
