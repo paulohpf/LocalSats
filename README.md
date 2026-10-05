@@ -163,7 +163,8 @@ mantendo cache local e fallback para o último preço salvo.
 - `tests/e2e/`: testes E2E em navegador real, cobrindo navegação, idioma/tema,
   carteira, compra, venda, persistência após reload, exportação JSON/CSV com
   validação de conteúdo, importação/restauração de backup JSON, exportação de
-  backup criptografado, senha incorreta e restauração criptografada.
+  backup criptografado, senha incorreta, restauração criptografada e regras
+  financeiras de venda acima do saldo/validação de formulários.
 
 ## Validação offline manual
 

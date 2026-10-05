@@ -176,6 +176,20 @@ offline final em navegador.
 
 ## Histórico de implementações
 
+### 05/10/2026 — Cobertura E2E de regras financeiras
+
+- **Implementação:** criação de testes E2E para validações financeiras sensíveis,
+  cobrindo compra inválida, venda inválida, venda acima do saldo com confirmação
+  cancelada e venda acima do saldo com confirmação aceita. Os cenários validam
+  que registros inválidos não são salvos e que o comportamento atual de aceitar
+  venda acima do saldo permanece explícito via confirmação nativa do navegador.
+- **Arquivos:** `tests/e2e/financial-rules.spec.ts`, `README.md` e
+  `IMPLEMENTAÇÃO.md`.
+- **Testes:** `npm run test:e2e`, `npm run test`, `npm run build` e
+  `npm run lint` concluídos com sucesso.
+- **Resultado:** suíte E2E expandida para 22 testes passando em desktop/mobile,
+  além de 34 testes unitários/de componente passando.
+
 ### 04/10/2026 — Cobertura E2E de backup criptografado
 
 - **Implementação:** criação de testes E2E para exportação de backup
